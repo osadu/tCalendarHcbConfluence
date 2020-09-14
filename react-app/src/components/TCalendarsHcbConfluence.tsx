@@ -33,11 +33,11 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     _getEvents = () => {
-        EventAPI.getEvents().then(data => {
+        EventAPI.getEvents().then((data:any) => {
             this.setState({
                 events: data.responseObject
             });
-        }).catch(error => {
+        }).catch((error:any) => {
             if(error.response.data.errorText){
                 this.setState({
                     calendarMainErrors: [...this.state.calendarMainErrors, error.response.data.errorText]
@@ -118,13 +118,13 @@ class TCalendarsHcbConfluence extends React.Component{
         }
 
         if(this.state.formEventId === "0"){
-            EventAPI.createEvent(this.state.formEventName,this.state.formFilterName).then(data => {
+            EventAPI.createEvent(this.state.formEventName,this.state.formFilterName).then((data:any) => {
                 this.setState({
                     successEvent: [...this.state.successEvent, "Успешно добавлено"]
                 });
                 this._closeModal();
                 this._getEvents();
-            }).catch(error => {
+            }).catch((error:any) => {
                 if(error.response.data.errorText){
                     this.setState({
                         calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
@@ -132,13 +132,13 @@ class TCalendarsHcbConfluence extends React.Component{
                 }
             });
         }else{
-            EventAPI.updateEvent(this.state.formEventId, this.state.formEventName,this.state.formFilterName).then(data => {
+            EventAPI.updateEvent(this.state.formEventId, this.state.formEventName,this.state.formFilterName).then((data:any) => {
                 this.setState({
                     successEvent: [...this.state.successEvent, "Успешно обновлен"]
                 });
                 this._closeModal();
                 this._getEvents();
-            }).catch(error => {
+            }).catch((error:any) => {
                     if(error.response.data.errorText){
                         this.setState({
                             calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
@@ -150,12 +150,12 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleDeleteEvent = (e:React.MouseEvent<HTMLElement>) => {
-        EventAPI.deleteEvent(e.currentTarget.dataset.id).then(data => {
+        EventAPI.deleteEvent(e.currentTarget.dataset.id).then((data:any) => {
             this._getEvents();
             this.setState({
                 successEvent: [...this.state.successEvent, "Успешно удален"]
             });
-        }).catch(error => {
+        }).catch((error:any) => {
             if(error.response.data.errorText){
                 this.setState({
                     calendarMainErrors: [...this.state.calendarMainErrors, error.response.data.errorText]

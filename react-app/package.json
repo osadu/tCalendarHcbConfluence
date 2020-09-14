@@ -15,8 +15,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "typescript": "^3.7.5",
-    "cldr-data": "^36.0.0"
+    "typescript": "^3.7.5"
   },
   "devDependencies": {
     "@types/node": "12.7.2",

@@ -1,7 +1,7 @@
 import React from "react";
 import './tcalendars.css';
 import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject } from '@syncfusion/ej2-react-schedule';
-import { L10n,  setCulture } from '@syncfusion/ej2-base';
+import { L10n, loadCldr } from '@syncfusion/ej2-base';
 import * as localeTexts from '../../commons/l10n/russian.json';
 
 const TCalendar = (props: any) => {
@@ -14,7 +14,14 @@ const TCalendar = (props: any) => {
         IsAllDay: false,
         Status: "Done"
      }];
-     L10n.load(localeTexts);
+     
+    loadCldr(
+        require('cldr-data/supplemental/numberingSystems.json'),
+        require('cldr-data/main/ru/ca-gregorian.json'),
+        require('cldr-data/main/ru/numbers.json'),
+        require('cldr-data/main/ru/timeZoneNames.json')
+      );
+    L10n.load(require('@syncfusion/ej2-locale/src/ru.json'));
 
     return (
         <ScheduleComponent height='550px' 
@@ -24,7 +31,7 @@ const TCalendar = (props: any) => {
                            eventSettings={ { dataSource: data } } 
                            currentView="Month" 
                            readonly={true}
-                           locale={"en"}
+                           locale={"ru"}
                            firstDayOfWeek={1}
                            >
             <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
