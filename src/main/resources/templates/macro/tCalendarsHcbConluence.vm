@@ -1,0 +1,6 @@
+#requireResource("kz.hcb.tCalendarsHcbConfluence.tCalendarsHcbConfluence:react-resources")
+#requireResource("kz.hcb.tCalendarsHcbConfluence.tCalendarsHcbConfluence:tCalendarsHcbConluence-resources")
+
+<div id="tCalendarsHcbConfluence">
+    Loading...
+</div>

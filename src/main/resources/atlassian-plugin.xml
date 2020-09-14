@@ -1,0 +1,44 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="tCalendarsHcbConluence"/>
+    
+    <!-- add our web resources -->
+    <web-resource key="tCalendarsHcbConluence-resources" name="tCalendarsHcbConluence Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <resource type="download" name="main.css" location="/css/main.css" />
+        <resource type="download" name="images/" location="/images"/>
+
+        <context>tCalendarsHcbConfluence</context>
+    </web-resource>
+
+    <web-resource key="react-resources" name="React resources for Team Calendars for confluence project">
+        <resource type="download" name="main.css" location="/client/main.css" />
+        <resource type="download" name="2.css" location="/client/2.css" />
+        <resource type="download" name="runtime~main.js" location="/client/runtime-main.js" />
+        <resource type="download" name="main.chunk.js" location="/client/main.chunk.js" />
+        <resource type="download" name="2.chunk.js" location="/client/2.chunk.js" />
+    </web-resource>
+
+    <xhtml-macro name="tCalendarsHcbConfluence" class="kz.hcb.tCalendarsHcbConfluence.macro.TCalendarsHcbConfluenceMacro" key='tCalendarsHcbConfluence-macro'>
+        <description key="tCalendarsHcbConfluence.macro.desc"/>
+        <category name="formatting"/>
+        <parameters/>
+    </xhtml-macro>
+
+    <ao key="ao-module">
+        <description>The module configuring the Active Objects service used by this plugin</description>
+        <entity>kz.hcb.tCalendarsHcbConfluence.entities.Event</entity>
+    </ao>
+
+    <rest key="tCalendarsHcbConfluence" path="/tCalendarsHcbConfluence" version="1">
+    </rest>
+
+</atlassian-plugin>
