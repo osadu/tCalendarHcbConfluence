@@ -11,8 +11,9 @@ const TCalendar = (props: TCalendarProps) => {
 
     let data: object [] = [{
         Id: 1,
-        Subject: 'Meeting - 1dasdasdasdasdasdasdadasdasdasdasdasfagfdgfh sfsdfsdf',
-        StartTime: new Date(2018, 1, 15, 10, 0),
+        Subject: 'Meeting - 1sadasdasdasdasdasd asfasfafasfsafasf',
+        StartTime: new Date(2020, 8, 15, 10, 0),
+        EndTime: new Date(2020, 8, 15, 10, 0),
         IsAllDay: false,
         Description: "Это прмер описания даноого ивента",
         Status: "Done"
