@@ -2,9 +2,12 @@ import React from "react";
 import './tcalendars.css';
 import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject } from '@syncfusion/ej2-react-schedule';
 import { L10n, loadCldr } from '@syncfusion/ej2-base';
-import * as localeTexts from '../../commons/l10n/russian.json';
 
-const TCalendar = (props: any) => {
+type TCalendarProps = {
+    onPopupOpen: (args:any) => void
+}
+
+const TCalendar = (props: TCalendarProps) => {
 
     let data: object [] = [{
         Id: 1,
@@ -34,6 +37,7 @@ const TCalendar = (props: any) => {
                            readonly={true}
                            locale={"ru"}
                            firstDayOfWeek={1}
+                           popupOpen={props.onPopupOpen}
                            >
             <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
         </ScheduleComponent>

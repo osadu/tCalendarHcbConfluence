@@ -60,48 +60,15 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
 
-    /*_localizingCalendarsDays = () => {
-        let tables = document.getElementsByClassName("e-outer-table");
-        let days = tables[0].getElementsByClassName("e-schedule-table")[0].getElementsByClassName("e-header-cells");
-
-        for(let i = 0 ; i < days.length ; i++){
-            switch(i){
-                case 0:
-                    days[i].getElementsByTagName("span")[0].innerHTML = "Понедельник";
-                    break;
-                case 1:
-                    days[i].getElementsByTagName("span")[0].innerHTML = "Вторник";
-                    break;
-                case 2:
-                    days[i].getElementsByTagName("span")[0].innerHTML = "Среда";
-                    break;
-                case 3:
-                    days[i].getElementsByTagName("span")[0].innerHTML = "Четверг";
-                    break;
-                case 4:
-                    days[i].getElementsByTagName("span")[0].innerHTML = "Пятница";
-                    break;
-                case 5:
-                    days[i].getElementsByTagName("span")[0].innerHTML = "Суббота";
-                    break;
-                case 6:
-                    days[i].getElementsByTagName("span")[0].innerHTML = "Воскресенье";
-                    break;
-                    
-            }
-        }
-    }*/
-
     componentDidMount(){
         this._getEvents();
     }
 
-    /*componentDidUpdate(){
-
-        this._localizingCalendarsDays();
-
-    }*/
     
+    onPopupOpen = (args:any) => {
+        console.log(args);
+    } 
+
 
     handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -206,7 +173,7 @@ class TCalendarsHcbConfluence extends React.Component{
 
         return (
             <div className="tCalendarsHcbBody">
-                <TCalendars />
+                <TCalendars onPopupOpen={this.onPopupOpen} />
                 <TEvents events={events} 
                          addEvent={this.handleAddEvent} 
                          updateEvent={this.handleUpdateEvent}
