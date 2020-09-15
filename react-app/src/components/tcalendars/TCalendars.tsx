@@ -12,6 +12,7 @@ const TCalendar = (props: any) => {
         StartTime: new Date(2018, 1, 15, 10, 0),
         EndTime: new Date(2018, 1, 16, 12, 30),
         IsAllDay: false,
+        Description: "Это прмер описания даноого ивента",
         Status: "Done"
      }];
      
