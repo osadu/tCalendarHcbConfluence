@@ -16,7 +16,8 @@ const TCalendar = (props: TCalendarProps) => {
         EndTime: new Date(2020, 8, 15, 10, 0),
         IsAllDay: false,
         Description: "Это прмер описания даноого ивента",
-        Status: "Done"
+        Status: "Done",
+        Delai: "This is example field"
      }];
      
     loadCldr(
