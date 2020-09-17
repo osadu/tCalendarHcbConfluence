@@ -2,14 +2,16 @@ import React from "react";
 import './tcalendars.css';
 import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject } from '@syncfusion/ej2-react-schedule';
 import { L10n, loadCldr } from '@syncfusion/ej2-base';
+import { IssueType } from "../../commons/Commons";
 
 type TCalendarProps = {
+    issues: Array<IssueType>
     onPopupOpen: (args:any) => void
 }
 
 const TCalendar = (props: TCalendarProps) => {
 
-    let data: object [] = [{
+    /*let data: object [] = [{
         Id: 1,
         Subject: 'Meeting - 1sadasdasdasdasdasd asfasfafasfsafasf',
         StartTime: new Date(2020, 8, 15, 10, 0),
@@ -18,7 +20,7 @@ const TCalendar = (props: TCalendarProps) => {
         Description: "Это прмер описания даноого ивента",
         Status: "Done",
         Delai: "This is example field"
-     }];
+     }];*/
      
     loadCldr(
         require('cldr-data/supplemental/numberingSystems.json'),
@@ -32,7 +34,7 @@ const TCalendar = (props: TCalendarProps) => {
         <ScheduleComponent height='550px' 
                            width='82%'
                            selectedDate={new Date()}
-                           eventSettings={ { dataSource: data } } 
+                           eventSettings={ { dataSource: props.issues } } 
                            currentView="Month" 
                            readonly={true}
                            locale={"ru"}

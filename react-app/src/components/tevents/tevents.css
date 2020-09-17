@@ -27,6 +27,7 @@
     color: #707070;
     display: flex;
     justify-content: space-between;
+    padding: 3px;
 }
 
 .tCalendarEvents .tCalendarEventsList li .jiraIssueImg{
@@ -55,4 +56,8 @@
 }
 .aui-dropdown li:hover{
     background-color: rgba(220,220,220,0.8);
+}
+
+.active{
+    background-color: rgba(220,220,220,0.4);
 }

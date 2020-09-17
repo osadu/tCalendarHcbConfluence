@@ -2,7 +2,7 @@ import React from "react";
 import TCalendars from "./tcalendars/TCalendars";
 import TEvents from "./tevents/TEvents";
 import {EventAPI} from "../api/EventAPI";
-import {EventType} from "../commons/Commons";
+import {EventType, IssueType} from "../commons/Commons";
 import {getAjs} from "../utils/jira.util";
 import AddUpdateEventFormComponent from "../modals/AddUpdateEventFormComponent";
 
@@ -17,6 +17,9 @@ type StateType = {
    formEventName:string
    formFilterName:string
 
+   issues: Array<IssueType>
+   selectedIndex: number
+
 }
 
 class TCalendarsHcbConfluence extends React.Component{
@@ -29,14 +32,24 @@ class TCalendarsHcbConfluence extends React.Component{
 
         formEventId: "0",
         formEventName: "",
-        formFilterName: ""
+        formFilterName: "",
+
+        issues: [],
+        selectedIndex: 0
     }
 
     _getEvents = () => {
+        
         EventAPI.getEvents().then((data:any) => {
+            
             this.setState({
                 events: data.responseObject
+            },()=>{
+                if(data.responseObject.length > 0){
+                    this._getIssues(this.state.selectedIndex);
+                }
             });
+          
         }).catch((error:any) => {
             if(error.response.data.errorText){
                 this.setState({
@@ -44,6 +57,29 @@ class TCalendarsHcbConfluence extends React.Component{
                 })
             }
         })
+    }
+
+    _getIssues = (selectedIndex:number) => {
+        EventAPI.getJqlByFilterName(this.state.events[selectedIndex].filterName).then( jql => {
+            EventAPI.getJiraIssuesByJql(jql).then(issues => {
+
+                this.setState({
+                    selectedIndex: selectedIndex,
+                    issues: issues.map((issue:any) => {
+                        return {
+                          Id: issue.id,
+                          Subject: issue.key,
+                          //StartTime: Date.parse(issue.customfield_11600),
+                          StartTime: Date.parse(issue.duedate),
+                          Description: issue.description,
+                          Status: issue.status.name,
+                          Creator: issue.creator.displayName
+                        };
+                    })
+                });
+
+            });
+        });
     }
 
     _resetAddUpdateEventForm = () => {
@@ -116,8 +152,21 @@ class TCalendarsHcbConfluence extends React.Component{
 
     }
 
+    handleClickEventLi = (e:React.MouseEvent<HTMLElement>) => {
+        this._getIssues(Number.parseInt(e.currentTarget.dataset.index || "0"));
+    }
+
     handleDeleteEvent = (e:React.MouseEvent<HTMLElement>) => {
         EventAPI.deleteEvent(e.currentTarget.dataset.id).then((data:any) => {
+            
+            let selectedIndex = Number.parseInt(e.currentTarget.dataset.index || "0");
+
+            if(this.state.selectedIndex === selectedIndex){
+                this.setState({
+                    selectedIndex: 0
+                });
+            }
+
             this._getEvents();
             this.setState({
                 successEvent: [...this.state.successEvent, "Успешно удален"]
@@ -165,19 +214,27 @@ class TCalendarsHcbConfluence extends React.Component{
     render(){
 
         let { 
+
               events,
               formEventId,
               formEventName,
-              formFilterName
-               } = this.state;
+              formFilterName,
+
+              selectedIndex,
+              issues
+
+            } = this.state;
 
         return (
             <div className="tCalendarsHcbBody">
-                <TCalendars onPopupOpen={this.onPopupOpen} />
+                <TCalendars onPopupOpen={this.onPopupOpen} 
+                            issues={issues}/>
                 <TEvents events={events} 
                          addEvent={this.handleAddEvent} 
                          updateEvent={this.handleUpdateEvent}
-                         deleteEvent={this.handleDeleteEvent}/>
+                         deleteEvent={this.handleDeleteEvent}
+                         handleClickEventLi={this.handleClickEventLi}
+                         selectedIndex={selectedIndex}/>
 
                 <div className="modals">
                     <AddUpdateEventFormComponent id={formEventId}

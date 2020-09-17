@@ -4,10 +4,12 @@ import {getAjsContextPath, getAjs} from "../../utils/jira.util";
 import {EventType} from "../../commons/Commons";
 
 type TEventsPropsType = {
-    events: Array<EventType>
+    events: Array<EventType>,
+    selectedIndex: number
     addEvent: (e:React.MouseEvent<HTMLElement>) => void
     updateEvent: (e:React.MouseEvent<HTMLElement>) => void
     deleteEvent: (e:React.MouseEvent<HTMLElement>) => void
+    handleClickEventLi: (e:React.MouseEvent<HTMLElement>) => void
 }
 
 const TEvents = (props: TEventsPropsType) => {
@@ -57,7 +59,7 @@ const TEvents = (props: TEventsPropsType) => {
                 {props.events.map((event,index) => {
 
                     return (
-                        <li>
+                        <li key={event.id} data-index={index} onClick={props.handleClickEventLi} className={props.selectedIndex === index ? "active" : ""}>
                             <p><img className="jiraIssueImg" src={getAjsContextPath()+"/download/resources/kz.hcb.tCalendarsHcbConfluence.tCalendarsHcbConfluence:tCalendarsHcbConluence-resources/images/tCalendarJiraIssue.png"} alt=""/>{event.eventName}</p>
                             <ul id={"tCalendarDropDown"+(index+1)} className="styled-parent">
                                 <li  className="aui-dd-parent">
@@ -69,7 +71,7 @@ const TEvents = (props: TEventsPropsType) => {
                                                                       data-eventname={event.eventName} 
                                                                       data-filtername={event.filterName}
                                                                       onClick={props.updateEvent}>Редактировать</li>
-                                        <li className="dropdown-item" data-id={event.id} onClick={props.deleteEvent}>Удалить</li>
+                                        <li className="dropdown-item" data-id={event.id} data-index={index} onClick={props.deleteEvent}>Удалить</li>
                                     </ul>
                                 </li>
                             </ul>
