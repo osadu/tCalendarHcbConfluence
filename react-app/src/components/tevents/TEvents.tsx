@@ -19,22 +19,18 @@ const TEvents = (props: TEventsPropsType) => {
     useEffect(() => {
         
         let AJS = getAjs();
-
-        if(props.events.length > 0){
-            
-            if(!mounted){
-                AJS.$(document).ready(function() {
-                    AJS.$("#tCalendarDropDown").dropDown("Standard");
-                    props.events.map((event,index) => {
-                        AJS.$("#tCalendarDropDown"+(index+1)).dropDown("Standard");
-                        return null;
-                    });
-                    setMounted(true);
+   
+        if(!mounted){
+            AJS.$(document).ready(function() {
+                AJS.$("#tCalendarDropDown").dropDown("Standard");
+                props.events.map((event,index) => {
+                    AJS.$("#tCalendarDropDown"+(index+1)).dropDown("Standard");
+                    return null;
                 });
-            }else{
-                AJS.$("#tCalendarDropDown"+props.events.length).dropDown("Standard");
-            }
-            
+                setMounted(true);
+            });
+        }else{
+            AJS.$("#tCalendarDropDown"+props.events.length).dropDown("Standard");
         }
 
     }, [props.events]);
