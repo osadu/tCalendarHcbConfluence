@@ -27,7 +27,10 @@
     color: #707070;
     display: flex;
     justify-content: space-between;
-    padding: 3px;
+}
+
+.tCalendarEvents .tCalendarEventsList li p{
+    padding: 4px;
 }
 
 .tCalendarEvents .tCalendarEventsList li .jiraIssueImg{

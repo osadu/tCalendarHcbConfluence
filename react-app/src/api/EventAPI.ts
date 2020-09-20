@@ -32,8 +32,8 @@ export const EventAPI = {
       return axios.get(JIRA_CUSTOM_URL+"getFilterJqlByNameAnonym?filterName="+filterName).then( response => response.data.jql );
     },
 
-    getJiraIssuesByJql: (jql:string) => {
-        return axios.get(JIRA_BASE_URL+"search?jql="+jql+"&maxResults=500").then( response => response.data.issues );
+    getJiraIssuesByFilterName: (filterName:string) => {
+        return axios.get(JIRA_BASE_URL+"getJiraIssuesByFilterNameAnonym?filterName="+filterName).then( response => response.data.issues );
     }
 
 }
