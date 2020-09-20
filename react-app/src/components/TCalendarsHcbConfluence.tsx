@@ -65,7 +65,7 @@ class TCalendarsHcbConfluence extends React.Component{
             this.setState({
                 selectedIndex: selectedIndex,
                 issues: issues.map((issue:any) => {
-                    console.log(issue.fields.duedate);
+                    console.log(issue.fields.duedate+"T00:00:00.000+0600");
                     console.log(issue.fields.description);
                     console.log(issue.fields.status.name);
                     console.log(issue.fields.creator.displayName);
@@ -73,7 +73,7 @@ class TCalendarsHcbConfluence extends React.Component{
                         Id: issue.id,
                         Subject: issue.key,
                         //StartTime: Date.parse(issue.customfield_11600),
-                        StartTime: Date.parse(issue.fields.duedate),
+                        StartTime: Date.parse(issue.fields.duedate+"T00:00:00.000+0600"),
                         Description: issue.fields.description,
                         Status: issue.fields.status.name,
                         Creator: issue.fields.creator.displayName
