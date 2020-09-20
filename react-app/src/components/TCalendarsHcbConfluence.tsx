@@ -64,7 +64,7 @@ class TCalendarsHcbConfluence extends React.Component{
 
             let newArrayIssues = issues.map((issue:any) => {
                 return {
-                    Id: issue.id,
+                    Id: Number.parseInt(issue.id),
                     Subject: issue.key,
                     //StartTime: Date.parse(issue.customfield_11600),
                     StartTime: Date.parse(issue.fields.duedate+"T00:00:00.000+0600"),
