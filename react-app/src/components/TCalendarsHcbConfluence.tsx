@@ -70,11 +70,10 @@ class TCalendarsHcbConfluence extends React.Component{
                     StartTime: Date.parse(issue.fields.duedate+"T00:00:00.000+0600"),
                     Description: issue.fields.description,
                     Status: issue.fields.status.name,
-                    Creator: issue.fields.creator.displayName
+                    Creator: issue.fields.creator.displayName,
+                    IsAllDay: false
                 };
             });
-
-            console.log(newArrayIssues);
 
             this.setState({
                 selectedIndex: selectedIndex,
