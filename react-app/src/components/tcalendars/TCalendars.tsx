@@ -11,7 +11,7 @@ type TCalendarProps = {
 
 const TCalendar = (props: TCalendarProps) => {
 
-    /*let data: object [] = [{
+    let data: object [] = [{
         Id: 1,
         Subject: 'Meeting - 1sadasdasdasdasdasd asfasfafasfsafasf',
         StartTime: new Date(2020, 8, 15, 10, 0),
@@ -20,7 +20,7 @@ const TCalendar = (props: TCalendarProps) => {
         Description: "Это прмер описания даноого ивента",
         Status: "Done",
         Delai: "This is example field"
-     }];*/
+     }];
      
     loadCldr(
         require('cldr-data/supplemental/numberingSystems.json'),
@@ -29,6 +29,8 @@ const TCalendar = (props: TCalendarProps) => {
         require('cldr-data/main/ru/timeZoneNames.json')
       );
     L10n.load(require('@syncfusion/ej2-locale/src/ru.json'));
+
+    console.log(data);
 
     return (
         <ScheduleComponent height='550px' 
