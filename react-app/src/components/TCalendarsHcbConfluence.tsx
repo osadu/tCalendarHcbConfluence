@@ -62,22 +62,21 @@ class TCalendarsHcbConfluence extends React.Component{
     _getIssues = (selectedIndex:number) => {
         EventAPI.getJiraIssuesByFilterName(this.state.events[selectedIndex].filterName).then( issues => {
 
-            let newArrayIssues = issues.map((issue:any) => {
-                return {
-                    Id: Number.parseInt(issue.id),
-                    Subject: issue.key,
-                    //StartTime: Date.parse(issue.customfield_11600),
-                    StartTime: Date.parse(issue.fields.duedate+"T00:00:00.000+0600"),
-                    Description: issue.fields.description,
-                    Status: issue.fields.status.name,
-                    Creator: issue.fields.creator.displayName,
-                    IsAllDay: false
-                };
-            });
-
             this.setState({
                 selectedIndex: selectedIndex,
-                issues: newArrayIssues
+                issues: issues.map((issue:any) => {
+                    return {
+                        Id: Number.parseInt(issue.id),
+                        Subject: issue.key,
+                        //StartTime: Date.parse(issue.customfield_11600),
+                        StartTime: Date.parse(issue.fields.duedate+"T00:00:00.000+0600"),
+                        EndTime: Date.parse(issue.fields.duedate+"T00:00:00.000+0600"),
+                        Description: issue.fields.description,
+                        Status: issue.fields.status.name,
+                        Creator: issue.fields.creator.displayName,
+                        IsAllDay: false
+                    };
+                })
             });
 
         });
