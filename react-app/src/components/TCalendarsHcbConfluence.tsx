@@ -65,6 +65,10 @@ class TCalendarsHcbConfluence extends React.Component{
             this.setState({
                 selectedIndex: selectedIndex,
                 issues: issues.map((issue:any) => {
+                    console.log(issue.fields.duedate);
+                    console.log(issue.fields.description);
+                    console.log(issue.fields.status.name);
+                    console.log(issue.fields.creator.displayName);
                     return {
                         Id: issue.id,
                         Subject: issue.key,
