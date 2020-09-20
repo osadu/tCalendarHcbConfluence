@@ -60,7 +60,7 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     _getIssues = (selectedIndex:number) => {
-        EventAPI.getJqlByFilterName(this.state.events[selectedIndex].filterName).then( issues => {
+        EventAPI.getJiraIssuesByFilterName(this.state.events[selectedIndex].filterName).then( issues => {
 
             this.setState({
                 selectedIndex: selectedIndex,
