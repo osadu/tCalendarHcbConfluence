@@ -33,7 +33,7 @@ export const EventAPI = {
     },
 
     getJiraIssuesByFilterName: (filterName:string) => {
-        return axios.get(JIRA_BASE_URL+"getJiraIssuesByFilterNameAnonym?filterName="+filterName).then( response => response.data.issues );
+        return axios.get(JIRA_CUSTOM_URL+"getJiraIssuesByFilterNameAnonym?filterName="+filterName).then( response => response.data.issues );
     }
 
 }
