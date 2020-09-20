@@ -69,10 +69,10 @@ class TCalendarsHcbConfluence extends React.Component{
                         Id: issue.id,
                         Subject: issue.key,
                         //StartTime: Date.parse(issue.customfield_11600),
-                        StartTime: Date.parse(issue.duedate),
-                        Description: issue.description,
-                        Status: issue.status.name,
-                        Creator: issue.creator.displayName
+                        StartTime: Date.parse(issue.fields.duedate),
+                        Description: issue.fields.description,
+                        Status: issue.fields.status.name,
+                        Creator: issue.fields.creator.displayName
                     };
                 })
             });
