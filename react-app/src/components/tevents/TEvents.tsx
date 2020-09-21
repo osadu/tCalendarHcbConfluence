@@ -13,17 +13,24 @@ type TEventsPropsType = {
 }
 
 function usePrevious(value:any) {
+    // The ref object is a generic container whose current property is mutable ...
+    // ... and can hold any value, similar to an instance property on a class
     const ref = useRef();
+    
+    // Store current value in ref
     useEffect(() => {
       ref.current = value;
-    });
+    }, [value]); // Only re-run if value changes
+    
+    // Return previous value (happens before update in useEffect above)
     return ref.current;
-}
+  }
+
 
 const TEvents = (props: TEventsPropsType) => {
 
     const [ mounted, setMounted ] = useState(false);
-    const { events } = props;
+    const {events} = props;
     const prevEvents:any = usePrevious(events);
 
     useEffect(() => {
@@ -39,7 +46,7 @@ const TEvents = (props: TEventsPropsType) => {
                 setMounted(true);
             });
         }else{
-            if(events.length > prevEvents.events.length)
+            if(events.length > prevEvents.length)
                 AJS.$("#tCalendarDropDown"+events.length).dropDown("Standard");
         }
 
