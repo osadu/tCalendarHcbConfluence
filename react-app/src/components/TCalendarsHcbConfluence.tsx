@@ -42,6 +42,9 @@ class TCalendarsHcbConfluence extends React.Component{
         
         EventAPI.getEvents().then((data:any) => {
             
+
+            console.log(data.responseObject);
+
             this.setState({
                 events: data.responseObject
             },()=>{
