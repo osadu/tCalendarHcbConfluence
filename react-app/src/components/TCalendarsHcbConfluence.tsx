@@ -44,6 +44,7 @@ class TCalendarsHcbConfluence extends React.Component{
         EventAPI.getEvents().then((data:any) => {
             
             if(data.responseObject.length === 0){
+                console.log("empty events");
                 this._resetIssues();
             }
 
