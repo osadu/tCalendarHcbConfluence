@@ -48,6 +48,7 @@ class TCalendarsHcbConfluence extends React.Component{
                 if(data.responseObject.length > 0){
                     this._getIssues(this.state.selectedIndex);
                 }else{
+                    console.log("emty issues");
                     this.setState({
                         issues: []
                     });
