@@ -102,7 +102,9 @@ class TCalendarsHcbConfluence extends React.Component{
 
 
     componentDidMount(){
+        let AJS = getAjs();
         this._getEvents();
+        AJS.$("#tCalendarDropDown").dropDown("Standard");
     }
 
     

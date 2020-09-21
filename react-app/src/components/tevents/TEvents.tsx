@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from "react";
+import React, {useEffect,useState,useRef} from "react";
 import "./tevents.css";
 import {getAjsContextPath, getAjs} from "../../utils/jira.util";
 import {EventType} from "../../commons/Commons";
@@ -12,9 +12,19 @@ type TEventsPropsType = {
     handleClickEventLi: (e:React.MouseEvent<HTMLElement>) => void
 }
 
+function usePrevious(value:any) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+}
+
 const TEvents = (props: TEventsPropsType) => {
 
     const [ mounted, setMounted ] = useState(false);
+    const { events } = props;
+    const prevEvents:any = usePrevious(events);
 
     useEffect(() => {
         
@@ -22,18 +32,18 @@ const TEvents = (props: TEventsPropsType) => {
    
         if(!mounted){
             AJS.$(document).ready(function() {
-                AJS.$("#tCalendarDropDown").dropDown("Standard");
-                props.events.map((event,index) => {
+                events.map((event,index) => {
                     AJS.$("#tCalendarDropDown"+(index+1)).dropDown("Standard");
                     return null;
                 });
                 setMounted(true);
             });
         }else{
-            AJS.$("#tCalendarDropDown"+props.events.length).dropDown("Standard");
+            if(events.length > prevEvents.events.length)
+                AJS.$("#tCalendarDropDown"+events.length).dropDown("Standard");
         }
 
-    }, [props.events]);
+    }, [events]);
 
     return (
         <div className="tCalendarEvents">
