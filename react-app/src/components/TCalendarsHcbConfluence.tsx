@@ -180,11 +180,17 @@ class TCalendarsHcbConfluence extends React.Component{
         EventAPI.deleteEvent(e.currentTarget.dataset.id).then((data:any) => {
             
             if(this.state.selectedIndex === selectedIndex){
-                this.setState({
-                    selectedIndex: 0
-                },()=>{
-                    this._getEvents();        
+                
+                new Promise(resolve=>{
+                    this.setState({
+                        selectedIndex: 0
+                    }, ()=>{
+                        resolve();
+                    });
+                }).then(()=>{
+                    this._getEvents();
                 });
+
                 return;
             }
 
