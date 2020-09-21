@@ -30,7 +30,6 @@ const TCalendar = (props: TCalendarProps) => {
       );
     L10n.load(require('@syncfusion/ej2-locale/src/ru.json'));
 
-    console.log(props.issues);
     
     return (
         <ScheduleComponent height='550px' 

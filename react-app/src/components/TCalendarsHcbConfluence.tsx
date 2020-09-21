@@ -55,7 +55,6 @@ class TCalendarsHcbConfluence extends React.Component{
             });
           
         }).catch((error:any) => {
-            console.log(error);
             if(error.response.data.errorText){
                 this.setState({
                     calendarMainErrors: [...this.state.calendarMainErrors, error.response.data.errorText]
@@ -167,6 +166,8 @@ class TCalendarsHcbConfluence extends React.Component{
         EventAPI.deleteEvent(e.currentTarget.dataset.id).then((data:any) => {
             
             let selectedIndex = Number.parseInt(e.currentTarget.dataset.index || "0");
+
+            console.log(selectedIndex);
 
             if(this.state.selectedIndex === selectedIndex){
                 this.setState({
