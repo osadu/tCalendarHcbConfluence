@@ -43,6 +43,10 @@ class TCalendarsHcbConfluence extends React.Component{
         
         EventAPI.getEvents().then((data:any) => {
             
+            if(data.responseObject.length === 0){
+                this._resetIssues();
+            }
+
             this.setState({
                 events: data.responseObject
             },()=>{
@@ -50,12 +54,6 @@ class TCalendarsHcbConfluence extends React.Component{
                     this._getIssues(this.state.selectedIndex);
                 }
             });
-
-            if(data.responseObject.length === 0){
-                this.setState({
-                    issue:[]
-                });
-            }
           
         }).catch((error:any) => {
             if(error.response.data.errorText){
