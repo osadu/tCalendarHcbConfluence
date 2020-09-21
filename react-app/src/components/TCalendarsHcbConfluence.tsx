@@ -42,14 +42,16 @@ class TCalendarsHcbConfluence extends React.Component{
         
         EventAPI.getEvents().then((data:any) => {
             
-
-            console.log(data.responseObject);
-
             this.setState({
                 events: data.responseObject
             },()=>{
+                console.log("delaaaaaaaaaaaaaaaai");
                 if(data.responseObject.length > 0){
                     this._getIssues(this.state.selectedIndex);
+                }else{
+                    this.setState({
+                        issues: []
+                    });
                 }
             });
           
@@ -171,6 +173,7 @@ class TCalendarsHcbConfluence extends React.Component{
             }
 
             this._getEvents();
+            console.log(selectedIndex+"deleted");
             this.setState({
                 successEvent: [...this.state.successEvent, "Успешно удален"]
             });
