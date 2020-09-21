@@ -52,7 +52,6 @@ class TCalendarsHcbConfluence extends React.Component{
                     new Promise(resolve => {
                         resolve();
                     }).then(()=>{
-                        console.log("then promise");
                         this._resetIssues();
                     });
                 }
