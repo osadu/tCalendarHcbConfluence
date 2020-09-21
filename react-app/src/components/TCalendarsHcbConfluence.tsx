@@ -163,6 +163,7 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleDeleteEvent = (e:React.MouseEvent<HTMLElement>) => {
+        console.log(e.currentTarget.dataset.index);
         EventAPI.deleteEvent(e.currentTarget.dataset.id).then((data:any) => {
 
             console.log(data);
