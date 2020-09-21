@@ -48,13 +48,13 @@ class TCalendarsHcbConfluence extends React.Component{
                 this._resetIssues();
             }
 
-            console.log("Index1 "+this.state.selectedIndex);
+            console.log("Index1 "+ this.state.selectedIndex);
 
             this.setState({
                 events: data.responseObject
             },()=>{
                 if(data.responseObject.length > 0){
-                    console.log("Index2 "+this.state.selectedIndex);
+                    console.log("Index2 "+ this.state.selectedIndex);
                     this._getIssues(this.state.selectedIndex);
                 }
             });
@@ -180,10 +180,12 @@ class TCalendarsHcbConfluence extends React.Component{
         EventAPI.deleteEvent(e.currentTarget.dataset.id).then((data:any) => {
             
             if(this.state.selectedIndex === selectedIndex){
-                console.log("index are equal");
                 this.setState({
                     selectedIndex: 0
+                },()=>{
+                    this._getEvents();        
                 });
+                return;
             }
 
             this._getEvents();
