@@ -5,6 +5,7 @@ import {EventAPI} from "../api/EventAPI";
 import {EventType, IssueType} from "../commons/Commons";
 import {getAjs} from "../utils/jira.util";
 import AddUpdateEventFormComponent from "../modals/AddUpdateEventFormComponent";
+import { resolve } from "dns";
 
 type StateType = {
    
@@ -48,7 +49,11 @@ class TCalendarsHcbConfluence extends React.Component{
                 if(data.responseObject.length > 0){
                     this._getIssues(this.state.selectedIndex);
                 }else{
-                    this._resetIssues();
+                    new Promise(resolve => {
+                        resolve();
+                    }).then(()=>{
+                        this._resetIssues();
+                    });
                 }
             });
           
