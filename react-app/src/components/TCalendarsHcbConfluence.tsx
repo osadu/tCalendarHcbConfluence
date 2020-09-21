@@ -180,6 +180,7 @@ class TCalendarsHcbConfluence extends React.Component{
                 successEvent: [...this.state.successEvent, "Успешно удален"]
             });
         }).catch((error:any) => {
+            console.log(error);
             if(error.response.data.errorText){
                 this.setState({
                     calendarMainErrors: [...this.state.calendarMainErrors, error.response.data.errorText]
