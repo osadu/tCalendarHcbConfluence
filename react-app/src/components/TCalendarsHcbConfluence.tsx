@@ -45,7 +45,6 @@ class TCalendarsHcbConfluence extends React.Component{
             this.setState({
                 events: data.responseObject
             },()=>{
-                console.log("delaaaaaaaaaaaaaaaai");
                 if(data.responseObject.length > 0){
                     this._getIssues(this.state.selectedIndex);
                 }else{
@@ -56,6 +55,7 @@ class TCalendarsHcbConfluence extends React.Component{
             });
           
         }).catch((error:any) => {
+            console.log(error);
             if(error.response.data.errorText){
                 this.setState({
                     calendarMainErrors: [...this.state.calendarMainErrors, error.response.data.errorText]
@@ -175,12 +175,10 @@ class TCalendarsHcbConfluence extends React.Component{
             }
 
             this._getEvents();
-            console.log(selectedIndex+"deleted");
             this.setState({
                 successEvent: [...this.state.successEvent, "Успешно удален"]
             });
         }).catch((error:any) => {
-            console.log(error);
             if(error.response.data.errorText){
                 this.setState({
                     calendarMainErrors: [...this.state.calendarMainErrors, error.response.data.errorText]
