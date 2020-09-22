@@ -165,10 +165,12 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleClickEventLi = (e:React.MouseEvent<HTMLElement>) => {
+        console.log("Clicked LI");
         this._getIssues(Number.parseInt(e.currentTarget.dataset.index || "0"));
     }
 
     handleDeleteEvent = (e:React.MouseEvent<HTMLElement>) => {
+        e.preventDefault();
 
         let selectedIndex = Number.parseInt(e.currentTarget.dataset.index || "0");
 
