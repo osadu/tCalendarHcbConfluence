@@ -53,7 +53,6 @@ class TCalendarsHcbConfluence extends React.Component{
                 if(data.responseObject.length > 0){
                     this._getIssues(this.state.selectedIndex);
                 }else{
-                    console.log("Empty Events");
                     this.setState({
                         issues: []
                     });
@@ -166,6 +165,7 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleClickEventLi = (e:React.MouseEvent<HTMLElement>) => {
+        console.log("Clicked");
         this._getIssues(Number.parseInt(e.currentTarget.dataset.index || "0"));
     }
 
@@ -175,10 +175,7 @@ class TCalendarsHcbConfluence extends React.Component{
 
         EventAPI.deleteEvent(e.currentTarget.dataset.id).then((data:any) => {
             
-            console.log(this.state.selectedIndex);
-            console.log(selectedIndex);
             if(this.state.selectedIndex === selectedIndex){
-                console.log("Indexes are equal");
                 new Promise(resolve=>{
                     this.setState({
                         selectedIndex: 0
