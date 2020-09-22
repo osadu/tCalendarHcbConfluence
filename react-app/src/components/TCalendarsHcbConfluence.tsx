@@ -44,6 +44,7 @@ class TCalendarsHcbConfluence extends React.Component{
         EventAPI.getEvents().then((data:any) => {
             
             if(data.responseObject.length === 0){
+                console.log("Empty events")
                 this._resetIssues();
             }
 
@@ -54,7 +55,9 @@ class TCalendarsHcbConfluence extends React.Component{
                     resolve();
                 });
             }).then(()=>{
+                console.log(data.responseObject.length);
                 if(data.responseObject.length > 0){
+                    console.log("Inside "+data.responseObject.length);
                     this._getIssues(this.state.selectedIndex);
                 }
             });
