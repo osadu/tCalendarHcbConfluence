@@ -170,7 +170,7 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleDeleteEvent = (e:React.MouseEvent<HTMLElement>) => {
-        e.preventDefault();
+        e.stopPropagation();
 
         let selectedIndex = Number.parseInt(e.currentTarget.dataset.index || "0");
 
