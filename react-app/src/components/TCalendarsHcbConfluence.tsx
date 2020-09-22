@@ -165,7 +165,6 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleClickEventLi = (e:React.MouseEvent<HTMLElement>) => {
-        console.log("Clicked");
         this._getIssues(Number.parseInt(e.currentTarget.dataset.index || "0"));
     }
 
@@ -247,7 +246,6 @@ class TCalendarsHcbConfluence extends React.Component{
 
             } = this.state;
 
-        console.log(issues);
         return (
             <div className="tCalendarsHcbBody">
                 <TCalendars onPopupOpen={this.onPopupOpen} 
