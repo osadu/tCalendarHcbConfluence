@@ -42,11 +42,6 @@ class TCalendarsHcbConfluence extends React.Component{
     _getEvents = () => {
         
         EventAPI.getEvents().then((data:any) => {
-            
-            if(data.responseObject.length === 0){
-                console.log("Empty events")
-                this._resetIssues();
-            }
 
             new Promise(resolve => {    
                 this.setState({
@@ -55,10 +50,12 @@ class TCalendarsHcbConfluence extends React.Component{
                     resolve();
                 });
             }).then(()=>{
-                console.log(data.responseObject.length);
                 if(data.responseObject.length > 0){
-                    console.log("Inside "+data.responseObject.length);
                     this._getIssues(this.state.selectedIndex);
+                }else{
+                    this.setState({
+                        issues: []
+                    });
                 }
             });
 
@@ -92,12 +89,6 @@ class TCalendarsHcbConfluence extends React.Component{
                 })
             });
 
-        });
-    }
-
-    _resetIssues = () => {
-        this.setState({
-            issues: []
         });
     }
 
@@ -255,6 +246,8 @@ class TCalendarsHcbConfluence extends React.Component{
               issues
 
             } = this.state;
+
+            console.log(issues);
 
         return (
             <div className="tCalendarsHcbBody">
