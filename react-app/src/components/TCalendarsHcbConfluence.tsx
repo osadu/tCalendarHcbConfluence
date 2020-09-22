@@ -53,6 +53,7 @@ class TCalendarsHcbConfluence extends React.Component{
                 if(data.responseObject.length > 0){
                     this._getIssues(this.state.selectedIndex);
                 }else{
+                    console.log("Empty Events");
                     this.setState({
                         issues: []
                     });
@@ -247,8 +248,7 @@ class TCalendarsHcbConfluence extends React.Component{
 
             } = this.state;
 
-            console.log(issues);
-
+        console.log(issues);
         return (
             <div className="tCalendarsHcbBody">
                 <TCalendars onPopupOpen={this.onPopupOpen} 
