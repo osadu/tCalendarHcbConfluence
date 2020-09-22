@@ -45,7 +45,7 @@ const TEvents = (props: TEventsPropsType) => {
                 {props.events.map((event,index) => {
 
                     return (
-                        <li key={event.id} data-index={index} onClick={props.selectedIndex === index ? () => {} : props.handleClickEventLi } className={props.selectedIndex === index ? "active" : ""}>
+                        <li key={event.id} data-index={index} onClick={props.handleClickEventLi} className={props.selectedIndex === index ? "active" : ""}>
                             <p><img className="jiraIssueImg" src={getAjsContextPath()+"/download/resources/kz.hcb.tCalendarsHcbConfluence.tCalendarsHcbConfluence:tCalendarsHcbConluence-resources/images/tCalendarJiraIssue.png"} alt=""/>{event.eventName}</p>
                             <ul id={"tCalendarDropDown"+(index+1)} className="styled-parent">
                                 <li  className="aui-dd-parent">
