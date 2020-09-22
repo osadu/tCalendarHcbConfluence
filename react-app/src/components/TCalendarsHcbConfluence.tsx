@@ -105,6 +105,17 @@ class TCalendarsHcbConfluence extends React.Component{
         getAjs().dialog2("#addUpdateEvent-dialog").hide();
     }
 
+    _setStateAfterDeleteEvent = (value:number) => {
+        new Promise(resolve=>{
+            this.setState({
+                selectedIndex: value
+            }, ()=>{
+                resolve();
+            });
+        }).then(()=>{
+            this._getEvents();
+        });
+    }
 
     componentDidMount(){
         let AJS = getAjs();
@@ -165,7 +176,6 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleClickEventLi = (e:React.MouseEvent<HTMLElement>) => {
-        console.log("Clicked LI");
         this._getIssues(Number.parseInt(e.currentTarget.dataset.index || "0"));
     }
 
@@ -177,23 +187,17 @@ class TCalendarsHcbConfluence extends React.Component{
         EventAPI.deleteEvent(e.currentTarget.dataset.id).then((data:any) => {
             
             if(this.state.selectedIndex === selectedIndex){
-                new Promise(resolve=>{
-                    this.setState({
-                        selectedIndex: 0
-                    }, ()=>{
-                        resolve();
-                    });
-                }).then(()=>{
-                    this._getEvents();
-                });
-
-                return;
+                this._setStateAfterDeleteEvent(0);
+            }else if(this.state.selectedIndex > selectedIndex){
+                this._setStateAfterDeleteEvent(this.state.selectedIndex - 1);
+            }else{
+                this._getEvents();
             }
 
-            this._getEvents();
             this.setState({
                 successEvent: [...this.state.successEvent, "Успешно удален"]
             });
+
         }).catch((error:any) => {
             if(error.response.data.errorText){
                 this.setState({
