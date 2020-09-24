@@ -23,6 +23,8 @@ type StateType = {
 
 }
 
+const JIRA_BASE_URL = "http://localhost:2990/jira/";
+
 class TCalendarsHcbConfluence extends React.Component{
 
     state: StateType = {
@@ -85,7 +87,7 @@ class TCalendarsHcbConfluence extends React.Component{
                         Status: issue.fields.status.name,
                         Creator: issue.fields.creator.displayName,
                         Assignee: issue.fields.assignee === null ? "Не назначено" : issue.fields.assignee.displayName,
-                        Reference: getAjsContextPath()+"/browse/"+issue.key,
+                        Reference: JIRA_BASE_URL+"browse/"+issue.key,
                         IsAllDay: false
                     };
                 })
@@ -124,7 +126,7 @@ class TCalendarsHcbConfluence extends React.Component{
         div.className = "customFields";
 
         if(isLink)
-            div.innerHTML = "<b>"+fieldName+"</b>: <a href=\""+value+"\">Открыть</a>";
+            div.innerHTML = "<b>"+fieldName+"</b>: <a href=\""+value+"\"> Открыть</a>";
         else
             div.innerHTML = "<b>"+fieldName+"</b>: "+value;
 

@@ -16,11 +16,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/index.html"
   },
   {
-    "revision": "fc9c50f45f35c3ac7c9b",
+    "revision": "f1b507d9e91df0c2278c",
     "url": "/main.chunk.js"
   },
   {
-    "revision": "fc9c50f45f35c3ac7c9b",
+    "revision": "f1b507d9e91df0c2278c",
     "url": "/main.css"
   },
   {
