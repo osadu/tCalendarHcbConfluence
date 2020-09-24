@@ -134,20 +134,15 @@ class TCalendarsHcbConfluence extends React.Component{
         creator.className = "customFileds";
         creator.innerHTML = "Статус: "+args.data.Status;
 
-
-        let popUp = args.element.getElementsByClassName("e-event-popup");
         let popUpContent = args.element.getElementsByClassName("e-popup-content");
-        
-        console.log(args.element);
-        console.log(popUp);
-        console.log(popUpContent);
 
-        popUpContent.append(creator);
-        popUpContent.append(status);
+        popUpContent.appendChild(creator);
+        popUpContent.appendChild(status);
                                        
     } 
 
     onPopupClose = (args:any) => {
+        console.log("Clos popup");
         console.log(args);
     }
 
