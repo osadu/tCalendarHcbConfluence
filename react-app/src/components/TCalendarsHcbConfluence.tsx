@@ -5,7 +5,6 @@ import {EventAPI} from "../api/EventAPI";
 import {EventType, IssueType} from "../commons/Commons";
 import {getAjs} from "../utils/jira.util";
 import AddUpdateEventFormComponent from "../modals/AddUpdateEventFormComponent";
-import { resolve } from "dns";
 
 type StateType = {
    
@@ -126,6 +125,22 @@ class TCalendarsHcbConfluence extends React.Component{
     
     onPopupOpen = (args:any) => {
         console.log(args);
+
+        let creator = document.createElement('div');
+        creator.className = "customFileds";
+        creator.innerHTML = "Исполнитель: "+args.data.Creator;
+
+        let status = document.createElement('div');
+        creator.className = "customFileds";
+        creator.innerHTML = "Статус: "+args.data.Status;
+
+
+        let popapContent = args.element.getElementsByClassName("e-event-popup")
+                                       .getElementsByClassName("e-popup-content");
+        
+        popapContent.append(creator);
+        popapContent.append(status);
+                                       
     } 
 
 
