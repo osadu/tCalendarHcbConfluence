@@ -84,7 +84,7 @@ class TCalendarsHcbConfluence extends React.Component{
                         Description: issue.fields.description,
                         Status: issue.fields.status.name,
                         Creator: issue.fields.creator.displayName,
-                        Assignee: issue.fields.assignee.displayName,
+                        Assignee: issue.fields.assignee === null ? "Не назначено" : issue.fields.assignee.displayName,
                         Reference: getAjsContextPath()+"/browse/"+issue.key,
                         IsAllDay: false
                     };
