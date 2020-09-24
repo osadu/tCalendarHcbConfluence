@@ -121,7 +121,7 @@ class TCalendarsHcbConfluence extends React.Component{
 
     _createCustomFieldElement = (fieldName:string, value:string, isLink: boolean) => {
         let div = document.createElement('div');
-        div.className = "customFileds";
+        div.className = "customFields";
 
         if(isLink)
             div.innerHTML = "<b>"+fieldName+"</b>: <a href=\""+value+"\">Открыть</a>";
