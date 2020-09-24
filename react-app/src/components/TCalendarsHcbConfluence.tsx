@@ -3,8 +3,9 @@ import TCalendars from "./tcalendars/TCalendars";
 import TEvents from "./tevents/TEvents";
 import {EventAPI} from "../api/EventAPI";
 import {EventType, IssueType} from "../commons/Commons";
-import {getAjs} from "../utils/jira.util";
+import {getAjs,getAjsContextPath} from "../utils/jira.util";
 import AddUpdateEventFormComponent from "../modals/AddUpdateEventFormComponent";
+import "./tCalendarsHcb.css";
 
 type StateType = {
    
@@ -83,6 +84,8 @@ class TCalendarsHcbConfluence extends React.Component{
                         Description: issue.fields.description,
                         Status: issue.fields.status.name,
                         Creator: issue.fields.creator.displayName,
+                        Assignee: issue.fields.assignee.displayName,
+                        Reference: getAjsContextPath()+"/browse/"+issue.key,
                         IsAllDay: false
                     };
                 })
@@ -116,10 +119,15 @@ class TCalendarsHcbConfluence extends React.Component{
         });
     }
 
-    _createCustomFieldElement = (fieldName:string, value:string) => {
+    _createCustomFieldElement = (fieldName:string, value:string, isLink: boolean) => {
         let div = document.createElement('div');
         div.className = "customFileds";
-        div.innerHTML = fieldName+": "+value;
+
+        if(isLink)
+            div.innerHTML = "<b>"+fieldName+"</b>: <a href=\""+value+"\">Открыть</a>";
+        else
+            div.innerHTML = "<b>"+fieldName+"</b>: "+value;
+
         return div;
     }
 
@@ -131,13 +139,13 @@ class TCalendarsHcbConfluence extends React.Component{
 
     
     onPopupOpen = (args:any) => {
-        args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Исполнитель",args.data.Creator));
-        args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Статус",args.data.Status));                                 
+        args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Автор",args.data.Creator,false));
+        args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Исполнитель",args.data.Assignee,false));
+        args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Статус",args.data.Status,false));
+        args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Запрос в Jira",args.data.Reference,true));                                 
     } 
 
     onPopupClose = (args:any) => {
-        console.log("Clos popup");
-        console.log(args);
     }
 
 
