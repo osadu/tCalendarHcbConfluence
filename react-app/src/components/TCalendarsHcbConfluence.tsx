@@ -136,6 +136,8 @@ class TCalendarsHcbConfluence extends React.Component{
 
         let popUpContent = args.element.getElementsByClassName("e-popup-content");
 
+        console.log(popUpContent.length);
+
         popUpContent.appendChild(creator);
         popUpContent.appendChild(status);
                                        
