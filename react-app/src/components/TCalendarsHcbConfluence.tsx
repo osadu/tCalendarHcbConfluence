@@ -126,7 +126,7 @@ class TCalendarsHcbConfluence extends React.Component{
         div.className = "customFields";
 
         if(isLink)
-            div.innerHTML = "<b>"+fieldName+"</b>: <a href=\""+value+"\"> Открыть</a>";
+            div.innerHTML = "<b>"+fieldName+"</b>: <a href=\""+value+"\" style=\"margin-left:5px\">Открыть</a>";
         else
             div.innerHTML = "<b>"+fieldName+"</b>: "+value;
 

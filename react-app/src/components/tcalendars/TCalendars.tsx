@@ -33,7 +33,7 @@ const TCalendar = (props: TCalendarProps) => {
 
     
     return (
-        <ScheduleComponent height='550px' 
+        <ScheduleComponent height='650px' 
                            width='82%'
                            selectedDate={new Date()}
                            eventSettings={ { dataSource: props.issues } } 
