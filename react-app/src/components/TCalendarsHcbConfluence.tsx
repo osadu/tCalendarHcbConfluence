@@ -135,13 +135,21 @@ class TCalendarsHcbConfluence extends React.Component{
         creator.innerHTML = "Статус: "+args.data.Status;
 
 
-        let popapContent = args.element.getElementsByClassName("e-event-popup")
-                                       .getElementsByClassName("e-popup-content");
+        let popUp = args.element.getElementsByClassName("e-event-popup");
+        let popUpContent = args.element.getElementsByClassName("e-popup-content");
         
-        popapContent.append(creator);
-        popapContent.append(status);
+        console.log(args.element);
+        console.log(popUp);
+        console.log(popUpContent);
+
+        popUpContent.append(creator);
+        popUpContent.append(status);
                                        
     } 
+
+    onPopupClose = (args:any) => {
+        console.log(args);
+    }
 
 
     handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -269,7 +277,8 @@ class TCalendarsHcbConfluence extends React.Component{
 
         return (
             <div className="tCalendarsHcbBody">
-                <TCalendars onPopupOpen={this.onPopupOpen} 
+                <TCalendars onPopupOpen={this.onPopupOpen}
+                            onPopupClose={this.onPopupClose} 
                             issues={issues}/>
                 <TEvents events={events} 
                          addEvent={this.handleAddEvent} 

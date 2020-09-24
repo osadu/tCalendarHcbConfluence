@@ -7,6 +7,7 @@ import { IssueType } from "../../commons/Commons";
 type TCalendarProps = {
     issues: Array<IssueType>
     onPopupOpen: (args:any) => void
+    onPopupClose: (args:any) => void
 }
 
 const TCalendar = (props: TCalendarProps) => {
@@ -41,6 +42,7 @@ const TCalendar = (props: TCalendarProps) => {
                            locale={"ru"}
                            firstDayOfWeek={1}
                            popupOpen={props.onPopupOpen}
+                           popupClose={props.onPopupClose}
                            >
             <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
         </ScheduleComponent>
