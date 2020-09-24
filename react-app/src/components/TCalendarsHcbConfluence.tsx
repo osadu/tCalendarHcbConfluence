@@ -116,6 +116,13 @@ class TCalendarsHcbConfluence extends React.Component{
         });
     }
 
+    _createCustomFieldElement = (fieldName:string, value:string) => {
+        let div = document.createElement('div');
+        div.className = "customFileds";
+        div.innerHTML = fieldName+": "+value;
+        return div;
+    }
+
     componentDidMount(){
         let AJS = getAjs();
         this._getEvents();
@@ -124,23 +131,8 @@ class TCalendarsHcbConfluence extends React.Component{
 
     
     onPopupOpen = (args:any) => {
-        console.log(args);
-
-        let creator = document.createElement('div');
-        creator.className = "customFileds";
-        creator.innerHTML = "Исполнитель: "+args.data.Creator;
-
-        let status = document.createElement('div');
-        creator.className = "customFileds";
-        creator.innerHTML = "Статус: "+args.data.Status;
-
-        let popUpContent = args.element.getElementsByClassName("e-popup-content");
-
-        console.log(popUpContent.length);
-
-        popUpContent.appendChild(creator);
-        popUpContent.appendChild(status);
-                                       
+        args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Исполнитель",args.data.Creator));
+        args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Статус",args.data.Status));                                 
     } 
 
     onPopupClose = (args:any) => {
