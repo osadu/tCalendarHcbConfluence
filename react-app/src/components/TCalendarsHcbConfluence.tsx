@@ -141,6 +141,7 @@ class TCalendarsHcbConfluence extends React.Component{
 
     
     onPopupOpen = (args:any) => {
+        console.log(args);
         args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Автор",args.data.Creator,false));
         args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Исполнитель",args.data.Assignee,false));
         args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Статус",args.data.Status,false));
