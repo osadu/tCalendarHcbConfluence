@@ -326,9 +326,9 @@ class TCalendarsHcbConfluence extends React.Component{
             } = this.state;
 
         return (
-            <div className="tCalendarsHcbBody">
+            <div>
                  
-                <div className={isModalOpen ? "modalOpen" : ""}>
+                <div className={isModalOpen ? "modalOpen" : "tCalendarsHcbBody"}>
                     <TCalendars onPopupOpen={this.onPopupOpen}
                                 onPopupClose={this.onPopupClose} 
                                 issues={issues}/>
