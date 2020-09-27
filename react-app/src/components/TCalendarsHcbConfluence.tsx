@@ -121,6 +121,14 @@ class TCalendarsHcbConfluence extends React.Component{
         });
     }
 
+    _resetSuccessEventMessageAfterSomeSeconds = (seconds:number) => {
+        setTimeout(()=>{
+            this.setState({
+                successEvent: []
+            })
+        },seconds);
+    }
+
     _createCustomFieldElement = (fieldName:string, value:string, isLink: boolean) => {
         let div = document.createElement('div');
         div.className = "customFields";
@@ -141,7 +149,6 @@ class TCalendarsHcbConfluence extends React.Component{
 
     
     onPopupOpen = (args:any) => {
-        console.log(args);
         args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Автор",args.data.Creator,false));
         args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Исполнитель",args.data.Assignee,false));
         args.element.getElementsByClassName("e-popup-content")[0].appendChild(this._createCustomFieldElement("Статус",args.data.Status,false));
@@ -166,35 +173,46 @@ class TCalendarsHcbConfluence extends React.Component{
             return;
         }
 
-        if(this.state.formEventId === "0"){
-            EventAPI.createEvent(this.state.formEventName,this.state.formFilterName).then((data:any) => {
-                this.setState({
-                    successEvent: [...this.state.successEvent, "Успешно добавлено"]
-                });
-                this._closeModal();
-                this._getEvents();
-            }).catch((error:any) => {
-                if(error.response.data.errorText){
+        EventAPI.getJqlByFilterName(this.state.formFilterName).then(() => {
+
+            if(this.state.formEventId === "0"){
+                EventAPI.createEvent(this.state.formEventName,this.state.formFilterName).then((data:any) => {
                     this.setState({
-                        calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
-                    })
-                }
-            });
-        }else{
-            EventAPI.updateEvent(this.state.formEventId, this.state.formEventName,this.state.formFilterName).then((data:any) => {
-                this.setState({
-                    successEvent: [...this.state.successEvent, "Успешно обновлен"]
-                });
-                this._closeModal();
-                this._getEvents();
-            }).catch((error:any) => {
+                        successEvent: [...this.state.successEvent, "Успешно добавлено"]
+                    });
+                    this._closeModal();
+                    this._getEvents();
+                    this._resetSuccessEventMessageAfterSomeSeconds(3000);
+                }).catch((error:any) => {
                     if(error.response.data.errorText){
                         this.setState({
                             calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
                         })
                     }
-            });
-        }
+                });
+            }else{
+                EventAPI.updateEvent(this.state.formEventId, this.state.formEventName,this.state.formFilterName).then((data:any) => {
+                    this.setState({
+                        successEvent: [...this.state.successEvent, "Успешно обновлен"]
+                    });
+                    this._closeModal();
+                    this._getEvents();
+                    this._resetSuccessEventMessageAfterSomeSeconds(3000);
+                }).catch((error:any) => {
+                        if(error.response.data.errorText){
+                            this.setState({
+                                calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
+                            })
+                        }
+                });
+            }
+
+        }).catch(error => {
+            if(error.response.data.message){
+                this.setState({calendarModalFormErrors: [ ...this.state.calendarModalFormErrors, error.response.data.message ]});
+                return;
+            }
+        });
 
     }
 
@@ -257,7 +275,8 @@ class TCalendarsHcbConfluence extends React.Component{
 
     handleFilterNameChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.setState({
-            formFilterName: e.currentTarget.value
+            formFilterName: e.currentTarget.value,
+            calendarModalFormErrors: []
         });
     }
 
@@ -271,7 +290,10 @@ class TCalendarsHcbConfluence extends React.Component{
               formFilterName,
 
               selectedIndex,
-              issues
+              issues,
+
+              calendarModalFormErrors,
+              successEvent
 
             } = this.state;
 
@@ -295,6 +317,8 @@ class TCalendarsHcbConfluence extends React.Component{
                                                  handleFilterNameChange={this.handleFilterNameChange}
                                                  AddUpdateEventFormCloseButton={this.AddUpdateEventFormCloseButton}
                                                  formSubmit={this.handleFormSubmit}
+                                                 success={successEvent}
+                                                 errors={calendarModalFormErrors}
                                                 />
                 </div>
 

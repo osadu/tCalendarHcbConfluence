@@ -1,0 +1,12 @@
+.successBlock{
+    margin: 0 0 20px 0;
+}
+
+.successBlock .successMessages{
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.successBlock .successMessages li{
+    color: #4BB543;
+}

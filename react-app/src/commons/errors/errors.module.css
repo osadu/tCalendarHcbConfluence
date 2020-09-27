@@ -1,0 +1,10 @@
+.errorBlock{
+    margin: 0 0 20px 0;
+}
+.errorBlock .errorMessages{
+    margin-top: 20px;
+    margin-left: 30px;
+}
+.errorBlock .errorMessages li{
+    color: red;
+}

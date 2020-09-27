@@ -1,9 +1,13 @@
 import React from "react";
+import ErrorsComponent from "../commons/errors/ErrorsComponent";
+import SuccessComponent from "../commons/success/SuccessComponent";
 
 type AddUpdateEventPropsType = {
     id: string
     eventName: string
     filterName: string
+    errors: Array<string>
+    success: Array<string>
     handleEventNameChange: (e: React.FormEvent<HTMLInputElement>) => void
     handleFilterNameChange: (e: React.FormEvent<HTMLInputElement>) => void
     AddUpdateEventFormCloseButton: (e:React.MouseEvent<HTMLElement>) => void
@@ -22,7 +26,10 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                 </a>
             </header>
             <div className="aui-dialog2-content">
-                
+            
+                {props.errors.length > 0 && <ErrorsComponent errors={props.errors}/>}
+                {props.success.length > 0 && <SuccessComponent messages={props.success}/>}
+
                 <form className="aui" onSubmit={props.formSubmit}>
                     
                     <div className="field-group">
