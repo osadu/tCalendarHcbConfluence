@@ -151,25 +151,22 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
 
+    _dialogTrigger = (triggerName: string, isModalOpen: boolean) => {
+        let AJS = getAjs();
+        AJS.dialog2("#addUpdateEvent-dialog").on(triggerName,()=>{
+            this._resetAddUpdateEventForm();
+            this.setState({
+                isModalOpen: isModalOpen
+            });
+        });
+    }
+
     componentDidMount(){
         let AJS = getAjs();
         this._getEvents();
+        this._dialogTrigger("show", true);
+        this._dialogTrigger("hide", false);
         AJS.$("#tCalendarDropDown").dropDown("Standard");
-
-        AJS.dialog2("#addUpdateEvent-dialog").on("show",()=>{
-            this._resetAddUpdateEventForm();
-            this.setState({
-                isModalOpen: true
-            });
-            AJS.$("#tCalendarDropDown").dropDown("Standard");
-        });
-
-        AJS.dialog2("#addUpdateEvent-dialog").on("hide",()=>{
-            this._resetAddUpdateEventForm();
-            this.setState({
-                isModalOpen: false
-            });
-        });
     }
 
     
@@ -330,20 +327,18 @@ class TCalendarsHcbConfluence extends React.Component{
 
         return (
             <div className="tCalendarsHcbBody">
-                
-                {!isModalOpen && 
-                <>
-                <TCalendars onPopupOpen={this.onPopupOpen}
-                            onPopupClose={this.onPopupClose} 
-                            issues={issues}/>
-                <TEvents events={events} 
-                         addEvent={this.handleAddEvent} 
-                         updateEvent={this.handleUpdateEvent}
-                         deleteEvent={this.handleDeleteEvent}
-                         handleClickEventLi={this.handleClickEventLi}
-                         selectedIndex={selectedIndex}/>
-                </>         
-                }
+                 
+                <div className={!isModalOpen ? "modalOpen" : ""}>
+                    <TCalendars onPopupOpen={this.onPopupOpen}
+                                onPopupClose={this.onPopupClose} 
+                                issues={issues}/>
+                    <TEvents events={events} 
+                            addEvent={this.handleAddEvent} 
+                            updateEvent={this.handleUpdateEvent}
+                            deleteEvent={this.handleDeleteEvent}
+                            handleClickEventLi={this.handleClickEventLi}
+                            selectedIndex={selectedIndex}/>
+                </div>         
 
                 <div className="modals">
                     <AddUpdateEventFormComponent id={formEventId}

@@ -4,3 +4,7 @@
     padding-top: 16px;
     font-size: 14px;
 }
+
+.modalOpen{
+    opacity: 0;
+}
