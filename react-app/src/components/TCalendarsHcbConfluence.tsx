@@ -21,6 +21,8 @@ type StateType = {
    issues: Array<IssueType>
    selectedIndex: number
 
+   isModalOpen: boolean
+
 }
 
 const JIRA_BASE_URL = "http://localhost:2990/jira/";
@@ -38,7 +40,9 @@ class TCalendarsHcbConfluence extends React.Component{
         formFilterName: "",
 
         issues: [],
-        selectedIndex: 0
+        selectedIndex: 0,
+
+        isModalOpen: false
     }
 
     _getEvents = () => {
@@ -100,12 +104,17 @@ class TCalendarsHcbConfluence extends React.Component{
         this.setState({
             formEventId: "0",
             formEventName: "",
-            formFilterName: ""
+            formFilterName: "",
+            calendarModalFormErrors: [],
+            successEvent: []
         });
     }
 
     _closeModal = () => {
         this._resetAddUpdateEventForm();
+        this.setState({
+            isModalOpen: false
+        });
         getAjs().dialog2("#addUpdateEvent-dialog").hide();
     }
 
@@ -238,6 +247,7 @@ class TCalendarsHcbConfluence extends React.Component{
             this.setState({
                 successEvent: [...this.state.successEvent, "Успешно удален"]
             });
+            this._resetSuccessEventMessageAfterSomeSeconds(3000);
 
         }).catch((error:any) => {
             if(error.response.data.errorText){
@@ -259,6 +269,9 @@ class TCalendarsHcbConfluence extends React.Component{
 
     handleAddEvent = (e:React.MouseEvent<HTMLElement>) => {
         this._resetAddUpdateEventForm();
+        this.setState({
+            isModalOpen: true
+        });
         getAjs().dialog2("#addUpdateEvent-dialog").show();
     }
 
@@ -293,12 +306,17 @@ class TCalendarsHcbConfluence extends React.Component{
               issues,
 
               calendarModalFormErrors,
-              successEvent
+              successEvent,
+
+              isModalOpen
 
             } = this.state;
 
         return (
             <div className="tCalendarsHcbBody">
+                
+                {!isModalOpen && 
+                <>
                 <TCalendars onPopupOpen={this.onPopupOpen}
                             onPopupClose={this.onPopupClose} 
                             issues={issues}/>
@@ -308,6 +326,8 @@ class TCalendarsHcbConfluence extends React.Component{
                          deleteEvent={this.handleDeleteEvent}
                          handleClickEventLi={this.handleClickEventLi}
                          selectedIndex={selectedIndex}/>
+                </>         
+                }
 
                 <div className="modals">
                     <AddUpdateEventFormComponent id={formEventId}
