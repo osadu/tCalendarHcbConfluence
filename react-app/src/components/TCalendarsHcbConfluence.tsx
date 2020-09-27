@@ -111,10 +111,10 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     _closeModal = () => {
-        this._resetAddUpdateEventForm();
+        /*this._resetAddUpdateEventForm();
         this.setState({
             isModalOpen: false
-        });
+        });*/
         getAjs().dialog2("#addUpdateEvent-dialog").hide();
     }
 
@@ -150,10 +150,26 @@ class TCalendarsHcbConfluence extends React.Component{
         return div;
     }
 
+
     componentDidMount(){
         let AJS = getAjs();
         this._getEvents();
         AJS.$("#tCalendarDropDown").dropDown("Standard");
+
+        AJS.dialog2("#addUpdateEvent-dialog").on("show",()=>{
+            this._resetAddUpdateEventForm();
+            this.setState({
+                isModalOpen: true
+            });
+            AJS.$("#tCalendarDropDown").dropDown("Standard");
+        });
+
+        AJS.dialog2("#addUpdateEvent-dialog").on("hide",()=>{
+            this._resetAddUpdateEventForm();
+            this.setState({
+                isModalOpen: false
+            });
+        });
     }
 
     
@@ -268,10 +284,10 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleAddEvent = (e:React.MouseEvent<HTMLElement>) => {
-        this._resetAddUpdateEventForm();
+        /*this._resetAddUpdateEventForm();
         this.setState({
             isModalOpen: true
-        });
+        });*/
         getAjs().dialog2("#addUpdateEvent-dialog").show();
     }
 
