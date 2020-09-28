@@ -154,7 +154,10 @@ class TCalendarsHcbConfluence extends React.Component{
     _dialogTrigger = (triggerName: string, isModalOpen: boolean) => {
         let AJS = getAjs();
         AJS.dialog2("#addUpdateEvent-dialog").on(triggerName,()=>{
-            this._resetAddUpdateEventForm();
+            
+            if(triggerName === "hide")
+                this._resetAddUpdateEventForm();
+            
             this.setState({
                 isModalOpen: isModalOpen
             });
