@@ -7,6 +7,7 @@ public class Event {
     private Integer id;
     private String eventName;
     private String filterName;
+    private String systemName;
 
     public Integer getId() {
         return id;
@@ -30,5 +31,13 @@ public class Event {
 
     public void setFilterName(String filterName) {
         this.filterName = filterName;
+    }
+
+    public String getSystemName() {
+        return systemName;
+    }
+
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
     }
 }

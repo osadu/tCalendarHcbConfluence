@@ -43,7 +43,9 @@ public class TCalendarsHcbConfluenceAPI {
         try{
             JsonParser parser = new JsonParser();
             JsonObject json = (JsonObject) parser.parse(request);
-            Event event = eventDao.createEvent(json.get("eventName").getAsString(),json.get("filterName").getAsString());
+            Event event = eventDao.createEvent(json.get("eventName").getAsString(),
+                                               json.get("filterName") != null ? json.get("filterName").getAsString() : null,
+                                                json.get("systemName") != null ? json.get("systemName").getAsString() : null);
             return Response.ok(getSuccess(getResponnseEvent(event))).build();
         }catch (Exception e){
             e.printStackTrace();
@@ -114,7 +116,10 @@ public class TCalendarsHcbConfluenceAPI {
         try {
             JsonParser parser = new JsonParser();
             JsonObject json = (JsonObject) parser.parse(request);
-            Event event = eventDao.updateEvent(json.get("id").getAsInt(),json.get("eventName").getAsString(),json.get("filterName").getAsString());
+            Event event = eventDao.updateEvent(json.get("id").getAsInt(),
+                    json.get("eventName").getAsString(),
+                    json.get("filterName") != null ? json.get("filterName").getAsString() : null,
+                    json.get("systemName") != null ? json.get("systemName").getAsString() : null);
             return Response.ok(getSuccess(getResponnseEvent(event))).build();
         }catch (Exception e){
             e.printStackTrace();
@@ -144,6 +149,7 @@ public class TCalendarsHcbConfluenceAPI {
         evnt.setId(event.getID());
         evnt.setEventName(event.getEventName());
         evnt.setFilterName(event.getFilterName());
+        evnt.setSystemName(event.getSystemName());
         return evnt;
     }
 

@@ -20,10 +20,11 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public Event createEvent(String eventName, String filterName) {
+    public Event createEvent(String eventName, String filterName, String systemName) {
         Event event = ao.create(Event.class);
         event.setEventName(eventName);
         event.setFilterName(filterName);
+        event.setSystemName(systemName);
         event.save();
         return event;
     }
@@ -44,10 +45,11 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public Event updateEvent(int id, String eventName, String filterName) {
+    public Event updateEvent(int id, String eventName, String filterName, String systemName) {
         Event event = ao.get(Event.class,id);
         event.setEventName(eventName);
         event.setFilterName(filterName);
+        event.setSystemName(systemName);
         event.save();
         return event;
     }

@@ -10,4 +10,7 @@ public interface Event extends Entity {
     String getFilterName();
     void setFilterName(String filterName);
 
+    String getSystemName();
+    void setSystemName(String systemName);
+
 }
