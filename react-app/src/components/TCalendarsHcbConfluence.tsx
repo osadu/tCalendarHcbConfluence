@@ -287,7 +287,9 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleRadioButtonChange = (e:any) => {
-       console.log(e.target.value);
+       this.setState({
+           isFilterName: JSON.parse(e.target.value)
+       });
     }
 
     AddUpdateEventFormCloseButton = (e:React.MouseEvent<HTMLElement>) => {

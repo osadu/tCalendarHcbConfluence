@@ -46,12 +46,14 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                         <RadioButtonComponent onChangeValue={props.handleRadioButtonChange}/>
                     </div>
 
-                    <div className="field-group">
-                        <label htmlFor="filterName">Имя фильтра
-                            <span className="aui-icon icon-required">(required)</span></label>
-                        <input className="text medium-field" type="text"
-                            id="filterName" placeholder="Имя фильтра" value={props.filterName} onChange={props.handleFilterNameChange}/>
-                    </div>
+                    {props.isFilterName ? (
+                        <div className="field-group">
+                            <label htmlFor="filterName">Имя фильтра
+                                <span className="aui-icon icon-required">(required)</span></label>
+                            <input className="text medium-field" type="text"
+                                id="filterName" placeholder="Имя фильтра" value={props.filterName} onChange={props.handleFilterNameChange}/>
+                        </div>
+                    ) : null }
 
                     <div className="buttons-container">
                         <div className="buttons">
