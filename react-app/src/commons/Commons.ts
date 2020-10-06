@@ -1,7 +1,8 @@
 export type EventType = {
-    id:number
+    id?:number
     eventName:string
-    filterName:string
+    filterName?:string
+    systemName?:string
 }
 
 export type IssueType = {

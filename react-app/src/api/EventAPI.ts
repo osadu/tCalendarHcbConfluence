@@ -1,4 +1,5 @@
 import axios from "axios";
+import { EventType } from "../commons/Commons";
 import {getAjsContextPath} from "../utils/jira.util";
 
 const BASE_URL = getAjsContextPath()+"/rest/tCalendarsHcbConfluence/1/";
@@ -8,8 +9,8 @@ const JIRA_CUSTOM_URL = "http://localhost:2990/jira/rest/tCalendarsHcbJira/1/";
 
 export const EventAPI = {
 
-    createEvent: (eventName:string | undefined, filterName:string | undefined) => {
-        return axios.post(BASE_URL+"createEvent",{ eventName, filterName }).then( response => response.data);
+    createEvent: (event:EventType) => {
+        return axios.post(BASE_URL+"createEvent",event).then( response => response.data);
     },
 
     getEvents: () => {
@@ -24,15 +25,15 @@ export const EventAPI = {
         return axios.delete(BASE_URL+"deleteEvent/"+id).then( response => response.data);
     },
 
-    updateEvent: (id:string, eventName:string, filterName:string) => {
-        return axios.put(BASE_URL+"updateEvent", { id, eventName, filterName}).then( response => response.data );
+    updateEvent: (event:EventType) => {
+        return axios.put(BASE_URL+"updateEvent", event).then( response => response.data );
     },
 
     getJqlByFilterName: (filterName:string) => {
       return axios.get(JIRA_CUSTOM_URL+"getFilterJqlByNameAnonym?filterName="+filterName).then( response => response.data.jql );
     },
 
-    getJiraIssuesByFilterName: (filterName:string) => {
+    getJiraIssuesByFilterName: (filterName:string | undefined) => {
         return axios.get(JIRA_CUSTOM_URL+"getJiraIssuesByFilterNameAnonym?filterName="+filterName).then( response => response.data.issues );
     }
 

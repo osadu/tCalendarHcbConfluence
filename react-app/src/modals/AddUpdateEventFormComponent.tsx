@@ -1,6 +1,7 @@
 import React from "react";
 import ErrorsComponent from "../commons/errors/ErrorsComponent";
 import SuccessComponent from "../commons/success/SuccessComponent";
+import RadioButtonComponent from "../components/tradiobuttons/RadioButtonComponent";
 
 type AddUpdateEventPropsType = {
     id: string
@@ -8,6 +9,8 @@ type AddUpdateEventPropsType = {
     filterName: string
     errors: Array<string>
     success: Array<string>
+    isFilterName: boolean
+    handleRadioButtonChange: (e:any) => void
     handleEventNameChange: (e: React.FormEvent<HTMLInputElement>) => void
     handleFilterNameChange: (e: React.FormEvent<HTMLInputElement>) => void
     AddUpdateEventFormCloseButton: (e:React.MouseEvent<HTMLElement>) => void
@@ -39,6 +42,10 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                             id="eventName" placeholder="Имя событии" value={props.eventName} onChange={props.handleEventNameChange}/>
                     </div>
                 
+                    <div className="field-group">
+                        <RadioButtonComponent onChangeValue={props.handleRadioButtonChange}/>
+                    </div>
+
                     <div className="field-group">
                         <label htmlFor="filterName">Имя фильтра
                             <span className="aui-icon icon-required">(required)</span></label>

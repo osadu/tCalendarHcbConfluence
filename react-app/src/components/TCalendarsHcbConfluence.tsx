@@ -22,6 +22,7 @@ type StateType = {
    selectedIndex: number
 
    isModalOpen: boolean
+   isFilterName: boolean
 
 }
 
@@ -42,7 +43,8 @@ class TCalendarsHcbConfluence extends React.Component{
         issues: [],
         selectedIndex: 0,
 
-        isModalOpen: false
+        isModalOpen: false,
+        isFilterName: true
     }
 
     _getEvents = () => {
@@ -84,7 +86,8 @@ class TCalendarsHcbConfluence extends React.Component{
                     return {
                         Id: Number.parseInt(issue.id),
                         Subject: issue.key,
-                        //StartTime: Date.parse(issue.customfield_11600),
+                        //StartTime: new Date(issue.customfield_11600),
+                        //EndTime: new Date(issue.customfield_11600),
                         StartTime: new Date(issue.fields.duedate+"T00:00:00.000+0600"),
                         EndTime: new Date(issue.fields.duedate+"T00:00:00.000+0600"),
                         Description: issue.fields.description,
@@ -111,10 +114,6 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     _closeModal = () => {
-        /*this._resetAddUpdateEventForm();
-        this.setState({
-            isModalOpen: false
-        });*/
         getAjs().dialog2("#addUpdateEvent-dialog").hide();
     }
 
@@ -201,7 +200,7 @@ class TCalendarsHcbConfluence extends React.Component{
         EventAPI.getJqlByFilterName(this.state.formFilterName).then(() => {
 
             if(this.state.formEventId === "0"){
-                EventAPI.createEvent(this.state.formEventName,this.state.formFilterName).then((data:any) => {
+                EventAPI.createEvent({eventName:this.state.formEventName,filterName:this.state.formFilterName}).then((data:any) => {
                     this.setState({
                         successEvent: [...this.state.successEvent, "Успешно добавлено"]
                     });
@@ -216,7 +215,7 @@ class TCalendarsHcbConfluence extends React.Component{
                     }
                 });
             }else{
-                EventAPI.updateEvent(this.state.formEventId, this.state.formEventName,this.state.formFilterName).then((data:any) => {
+                EventAPI.updateEvent({id:Number.parseInt(this.state.formEventId), eventName:this.state.formEventName, filterName:this.state.formFilterName}).then((data:any) => {
                     this.setState({
                         successEvent: [...this.state.successEvent, "Успешно обновлен"]
                     });
@@ -284,11 +283,11 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleAddEvent = (e:React.MouseEvent<HTMLElement>) => {
-        /*this._resetAddUpdateEventForm();
-        this.setState({
-            isModalOpen: true
-        });*/
         getAjs().dialog2("#addUpdateEvent-dialog").show();
+    }
+
+    handleRadioButtonChange = (e:any) => {
+       console.log(e.target.value);
     }
 
     AddUpdateEventFormCloseButton = (e:React.MouseEvent<HTMLElement>) => {
@@ -324,7 +323,8 @@ class TCalendarsHcbConfluence extends React.Component{
               calendarModalFormErrors,
               successEvent,
 
-              isModalOpen
+              isModalOpen,
+              isFilterName
 
             } = this.state;
 
@@ -353,6 +353,8 @@ class TCalendarsHcbConfluence extends React.Component{
                                                  formSubmit={this.handleFormSubmit}
                                                  success={successEvent}
                                                  errors={calendarModalFormErrors}
+                                                 isFilterName={isFilterName}
+                                                 handleRadioButtonChange={this.handleRadioButtonChange}
                                                 />
                 </div>
 
