@@ -45,8 +45,8 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                 
                     <div className="field-group">
                         <div onChange={props.handleRadioButtonChange}>
-                            <p><input type="radio" value="true" name="isFilterName" checked={props.isFilterName}/> Имя фильтра</p>
-                            <p><input type="radio" value="false" name="isFilterName" checked={props.isFilterName}/> Имя системы</p>
+                            <p><input type="radio" value="true" name="isFilterName" /> Имя фильтра</p>
+                            <p><input type="radio" value="false" name="isFilterName" /> Имя системы</p>
                         </div>
                     </div>
 
