@@ -59,7 +59,8 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                         </div>
                     ) : (
                         <div className="field-group">
-                                <span className="aui-icon icon-required">(required)</span>
+                                <label htmlFor="filterName">Имя системы
+                                <span className="aui-icon icon-required">(required)</span></label>
                                 <select className="systemNameSelect" value={props.systemName} onChange={props.handleSystemNameChange}>
                                     <option value="grapefruit">Грейпфрут</option>
                                     <option value="lime">Лайм</option>

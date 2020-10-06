@@ -12,5 +12,5 @@
 .systemNameSelect{
     width: 100%;
     padding: 3px;
-    border-color: grey
+    border: 1px solid #c1c7d0;
 }
