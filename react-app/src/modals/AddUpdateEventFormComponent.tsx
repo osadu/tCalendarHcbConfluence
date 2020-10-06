@@ -45,8 +45,8 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                 
                     <div className="field-group">
                         <div onChange={props.handleRadioButtonChange}>
-                            <p><input type="radio" value="true" name="isFilterName" checked/> Имя фильтра</p>
-                            <p><input type="radio" value="false" name="isFilterName" /> Имя системы</p>
+                            <p><input type="radio" value="true" name="isFilterName" checked={props.isFilterName}/> Имя фильтра</p>
+                            <p><input type="radio" value="false" name="isFilterName" checked={props.isFilterName}/> Имя системы</p>
                         </div>
                     </div>
 
@@ -60,7 +60,7 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                     ) : (
                         <div className="field-group">
                                 <span className="aui-icon icon-required">(required)</span>
-                                <select value={props.systemName} onChange={props.handleSystemNameChange}>
+                                <select className="systemNameSelect" value={props.systemName} onChange={props.handleSystemNameChange}>
                                     <option value="grapefruit">Грейпфрут</option>
                                     <option value="lime">Лайм</option>
                                     <option value="coconut">Кокос</option>

@@ -8,3 +8,9 @@
 .modalOpen{
     opacity: 0;
 }
+
+.systemNameSelect{
+    width: 100%;
+    padding: 3px;
+    border-color: grey
+}
