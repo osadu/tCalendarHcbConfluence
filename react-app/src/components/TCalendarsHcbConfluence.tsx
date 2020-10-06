@@ -17,6 +17,7 @@ type StateType = {
    formEventId:string
    formEventName:string
    formFilterName:string
+   formSystemName:string
 
    issues: Array<IssueType>
    selectedIndex: number
@@ -39,6 +40,7 @@ class TCalendarsHcbConfluence extends React.Component{
         formEventId: "0",
         formEventName: "",
         formFilterName: "",
+        formSystemName: "",
 
         issues: [],
         selectedIndex: 0,
@@ -310,6 +312,13 @@ class TCalendarsHcbConfluence extends React.Component{
         });
     }
 
+    handleSystemNameChange = (e:any) => {
+      this.setState({
+          formSystemName: e.target.value,
+          calendarModalFormErrors: []
+      });
+    }
+
     render(){
 
         let { 
@@ -318,6 +327,7 @@ class TCalendarsHcbConfluence extends React.Component{
               formEventId,
               formEventName,
               formFilterName,
+              formSystemName,
 
               selectedIndex,
               issues,
@@ -349,8 +359,10 @@ class TCalendarsHcbConfluence extends React.Component{
                     <AddUpdateEventFormComponent id={formEventId}
                                                  eventName={formEventName}
                                                  filterName={formFilterName}
+                                                 systemName={formSystemName}
                                                  handleEventNameChange={this.handleEventNameChange}
                                                  handleFilterNameChange={this.handleFilterNameChange}
+                                                 handleSystemNameChange={this.handleSystemNameChange}
                                                  AddUpdateEventFormCloseButton={this.AddUpdateEventFormCloseButton}
                                                  formSubmit={this.handleFormSubmit}
                                                  success={successEvent}

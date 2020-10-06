@@ -1,18 +1,19 @@
 import React from "react";
 import ErrorsComponent from "../commons/errors/ErrorsComponent";
 import SuccessComponent from "../commons/success/SuccessComponent";
-import RadioButtonComponent from "../components/tradiobuttons/RadioButtonComponent";
 
 type AddUpdateEventPropsType = {
     id: string
     eventName: string
     filterName: string
+    systemName: string
     errors: Array<string>
     success: Array<string>
     isFilterName: boolean
     handleRadioButtonChange: (e:any) => void
     handleEventNameChange: (e: React.FormEvent<HTMLInputElement>) => void
     handleFilterNameChange: (e: React.FormEvent<HTMLInputElement>) => void
+    handleSystemNameChange: (e:any) => void
     AddUpdateEventFormCloseButton: (e:React.MouseEvent<HTMLElement>) => void
     formSubmit: (e: React.FormEvent<HTMLFormElement>) => void
 }
@@ -43,7 +44,10 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                     </div>
                 
                     <div className="field-group">
-                        <RadioButtonComponent onChangeValue={props.handleRadioButtonChange}/>
+                        <div onChange={props.handleRadioButtonChange}>
+                            <p><input type="radio" value="true" name="isFilterName" checked/> Имя фильтра</p>
+                            <p><input type="radio" value="false" name="isFilterName" /> Имя системы</p>
+                        </div>
                     </div>
 
                     {props.isFilterName ? (
@@ -53,7 +57,17 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                             <input className="text medium-field" type="text"
                                 id="filterName" placeholder="Имя фильтра" value={props.filterName} onChange={props.handleFilterNameChange}/>
                         </div>
-                    ) : null }
+                    ) : (
+                        <div className="field-group">
+                                <span className="aui-icon icon-required">(required)</span>
+                                <select value={props.systemName} onChange={props.handleSystemNameChange}>
+                                    <option value="grapefruit">Грейпфрут</option>
+                                    <option value="lime">Лайм</option>
+                                    <option value="coconut">Кокос</option>
+                                    <option value="mango">Манго</option>
+                                </select>
+                        </div>
+                    ) }
 
                     <div className="buttons-container">
                         <div className="buttons">
