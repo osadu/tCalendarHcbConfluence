@@ -2,7 +2,7 @@ import React from "react";
 import TCalendars from "./tcalendars/TCalendars";
 import TEvents from "./tevents/TEvents";
 import {EventAPI} from "../api/EventAPI";
-import {EventType, IssueType} from "../commons/Commons";
+import {EventType, IssueType, SystemNameType} from "../commons/Commons";
 import {getAjs,getAjsContextPath} from "../utils/jira.util";
 import AddUpdateEventFormComponent from "../modals/AddUpdateEventFormComponent";
 import "./tCalendarsHcb.css";
@@ -25,6 +25,8 @@ type StateType = {
    isModalOpen: boolean
    isFilterName: boolean
 
+   systemNames: Array<SystemNameType>
+
 }
 
 const JIRA_BASE_URL = "http://localhost:2990/jira/";
@@ -46,7 +48,9 @@ class TCalendarsHcbConfluence extends React.Component{
         selectedIndex: 0,
 
         isModalOpen: false,
-        isFilterName: true
+        isFilterName: true,
+
+        systemNames: []
     }
 
     _getEvents = () => {
@@ -61,7 +65,7 @@ class TCalendarsHcbConfluence extends React.Component{
                 });
             }).then(()=>{
                 if(data.responseObject.length > 0){
-                    this._getIssues(this.state.selectedIndex);
+                    this._getIssues(this.state.selectedIndex, this.state.events[this.state.selectedIndex].filterName ? true : false);
                 }else{
                     this.setState({
                         issues: []
@@ -79,30 +83,42 @@ class TCalendarsHcbConfluence extends React.Component{
         })
     }
 
-    _getIssues = (selectedIndex:number) => {
-        EventAPI.getJiraIssuesByFilterName(this.state.events[selectedIndex].filterName).then( issues => {
+    _getIssuesFromMap = (issues: any, selectedIndex: number) => {
 
-            this.setState({
-                selectedIndex: selectedIndex,
-                issues: issues.map((issue:any) => {
-                    return {
-                        Id: Number.parseInt(issue.id),
-                        Subject: issue.key,
-                        //StartTime: new Date(issue.customfield_11600),
-                        //EndTime: new Date(issue.customfield_11600),
-                        StartTime: new Date(issue.fields.duedate+"T00:00:00.000+0600"),
-                        EndTime: new Date(issue.fields.duedate+"T00:00:00.000+0600"),
-                        Description: issue.fields.description,
-                        Status: issue.fields.status.name,
-                        Creator: issue.fields.creator.displayName,
-                        Assignee: issue.fields.assignee === null ? "Не назначено" : issue.fields.assignee.displayName,
-                        Reference: JIRA_BASE_URL+"browse/"+issue.key,
-                        IsAllDay: false
-                    };
-                })
-            });
-
+        this.setState({
+            selectedIndex: selectedIndex,
+            issues: issues.map((issue:any) => {
+                return {
+                    Id: Number.parseInt(issue.id),
+                    Subject: issue.key,
+                    //StartTime: new Date(issue.customfield_11600),
+                    //EndTime: new Date(issue.customfield_11600),
+                    StartTime: new Date(issue.fields.duedate+"T00:00:00.000+0600"),
+                    EndTime: new Date(issue.fields.duedate+"T00:00:00.000+0600"),
+                    Description: issue.fields.description,
+                    Status: issue.fields.status.name,
+                    Creator: issue.fields.creator.displayName,
+                    Assignee: issue.fields.assignee === null ? "Не назначено" : issue.fields.assignee.displayName,
+                    Reference: JIRA_BASE_URL+"browse/"+issue.key,
+                    IsAllDay: false
+                };
+            })
         });
+        
+    }
+
+    _getIssues = (selectedIndex:number, isFilterName:boolean) => {
+
+        if(isFilterName){
+            EventAPI.getJiraIssuesByFilterName(this.state.events[selectedIndex].filterName).then( issues => {
+                this._getIssuesFromMap(issues,selectedIndex);
+            });
+        }else{
+            EventAPI.getJiraIssuesBySystemName(this.state.events[selectedIndex].systemName).then( issues => {
+                this._getIssuesFromMap(issues,selectedIndex);
+            });
+        }
+    
     }
 
     _resetAddUpdateEventForm = () => {
@@ -110,6 +126,9 @@ class TCalendarsHcbConfluence extends React.Component{
             formEventId: "0",
             formEventName: "",
             formFilterName: "",
+            formSystemName: "",
+            isFilterName: true,
+            systemNames: [],
             calendarModalFormErrors: [],
             successEvent: []
         });
@@ -155,7 +174,6 @@ class TCalendarsHcbConfluence extends React.Component{
     _dialogTrigger = (triggerName: string, isModalOpen: boolean) => {
         let AJS = getAjs();
         AJS.dialog2("#addUpdateEvent-dialog").on(triggerName,()=>{
-            
             if(triggerName === "hide")
                 this._resetAddUpdateEventForm();
             
@@ -163,6 +181,42 @@ class TCalendarsHcbConfluence extends React.Component{
                 isModalOpen: isModalOpen
             });
         });
+    }
+
+    _createOrUpdateEvent = (event: EventType) => {
+
+        if(this.state.formEventId === "0"){
+            EventAPI.createEvent(event).then((data:any) => {
+                this.setState({
+                    successEvent: [...this.state.successEvent, "Успешно добавлено"]
+                });
+                this._closeModal();
+                this._getEvents();
+                this._resetSuccessEventMessageAfterSomeSeconds(3000);
+            }).catch((error:any) => {
+                if(error.response.data.errorText){
+                    this.setState({
+                        calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
+                    })
+                }
+            });
+        }else{
+            EventAPI.updateEvent(event).then((data:any) => {
+                this.setState({
+                    successEvent: [...this.state.successEvent, "Успешно обновлен"]
+                });
+                this._closeModal();
+                this._getEvents();
+                this._resetSuccessEventMessageAfterSomeSeconds(3000);
+            }).catch((error:any) => {
+                    if(error.response.data.errorText){
+                        this.setState({
+                            calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
+                        })
+                    }
+            });
+        }
+
     }
 
     componentDidMount(){
@@ -191,59 +245,43 @@ class TCalendarsHcbConfluence extends React.Component{
         let errors:Array<string> = [];
         if(!this.state.formEventName)
            errors = [...errors, 'Заполните имя собитии'];
-        if(!this.state.formFilterName)
-           errors = [...errors, 'Заполните имя фильтра'];
-
+        
+        if(this.state.isFilterName){
+            if(!this.state.formFilterName)
+                errors = [...errors, 'Заполните имя фильтра'];
+        }else{
+            if(!this.state.formSystemName)
+                errors = [...errors, 'Выберите имя системы'];
+        }
         if(errors.length > 0){
             this.setState({ calendarModalFormErrors: errors });
             return;
         }
 
-        EventAPI.getJqlByFilterName(this.state.formFilterName).then(() => {
-
-            if(this.state.formEventId === "0"){
-                EventAPI.createEvent({eventName:this.state.formEventName,filterName:this.state.formFilterName}).then((data:any) => {
-                    this.setState({
-                        successEvent: [...this.state.successEvent, "Успешно добавлено"]
-                    });
-                    this._closeModal();
-                    this._getEvents();
-                    this._resetSuccessEventMessageAfterSomeSeconds(3000);
-                }).catch((error:any) => {
-                    if(error.response.data.errorText){
-                        this.setState({
-                            calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
-                        })
-                    }
-                });
-            }else{
-                EventAPI.updateEvent({id:Number.parseInt(this.state.formEventId), eventName:this.state.formEventName, filterName:this.state.formFilterName}).then((data:any) => {
-                    this.setState({
-                        successEvent: [...this.state.successEvent, "Успешно обновлен"]
-                    });
-                    this._closeModal();
-                    this._getEvents();
-                    this._resetSuccessEventMessageAfterSomeSeconds(3000);
-                }).catch((error:any) => {
-                        if(error.response.data.errorText){
-                            this.setState({
-                                calendarModalFormErrors: [...this.state.calendarModalFormErrors, error.response.data.errorText]
-                            })
-                        }
-                });
-            }
-
-        }).catch(error => {
-            if(error.response.data.message){
-                this.setState({calendarModalFormErrors: [ ...this.state.calendarModalFormErrors, error.response.data.message ]});
-                return;
-            }
-        });
+        if(this.state.isFilterName){
+            EventAPI.getJqlByFilterName(this.state.formFilterName).then(() => {
+               this._createOrUpdateEvent({
+                   eventName:this.state.formEventName,
+                   filterName:this.state.formFilterName
+                });    
+            }).catch(error => {
+                if(error.response.data.message){
+                    this.setState({calendarModalFormErrors: [ ...this.state.calendarModalFormErrors, error.response.data.message ]});
+                    return;
+                }
+            });
+        }else{
+            this._createOrUpdateEvent({
+                id:Number.parseInt(this.state.formEventId), 
+                eventName:this.state.formEventName, 
+                systemName:this.state.formSystemName
+            });
+        }
 
     }
 
-    handleClickEventLi = (e:React.MouseEvent<HTMLElement>) => {
-        this._getIssues(Number.parseInt(e.currentTarget.dataset.index || "0"));
+    handleClickEventLi = (e:React.MouseEvent<HTMLElement>) => { 
+        this._getIssues(Number.parseInt(e.currentTarget.dataset.index || "0"),JSON.parse(e.currentTarget.dataset.isfiltername ? e.currentTarget.dataset.isfiltername : "true"));
     }
 
     handleDeleteEvent = (e:React.MouseEvent<HTMLElement>) => {
@@ -276,11 +314,22 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleUpdateEvent = (e:React.MouseEvent<HTMLElement>) => {
-        this.setState({
-            formEventId: e.currentTarget.dataset.id,
-            formEventName: e.currentTarget.dataset.eventname,
-            formFilterName: e.currentTarget.dataset.filtername
-        });
+        let isFilterName = JSON.parse(e.currentTarget.dataset.isfiltername ? e.currentTarget.dataset.isfiltername : "true");
+        if(isFilterName){
+            this.setState({
+                formEventId: e.currentTarget.dataset.id,
+                formEventName: e.currentTarget.dataset.eventname,
+                formFilterName: e.currentTarget.dataset.filtername,
+                isFilterName: isFilterName
+            });
+        }else{
+            this.setState({
+                formEventId: e.currentTarget.dataset.id,
+                formEventName: e.currentTarget.dataset.eventname,
+                formSystemName: e.currentTarget.dataset.systemname,
+                isFilterName: isFilterName
+            });
+        }
         getAjs().dialog2("#addUpdateEvent-dialog").show();
     }
 
@@ -289,9 +338,19 @@ class TCalendarsHcbConfluence extends React.Component{
     }
 
     handleRadioButtonChange = (e:any) => {
-       this.setState({
-           isFilterName: JSON.parse(e.target.value)
-       });
+        let isFilterName = JSON.parse(e.target.value);
+        if(!isFilterName){
+            EventAPI.getSystemNamesFromJira().then( data => {
+                this.setState({
+                    systemNames: data,
+                    isFilterName: isFilterName
+                });
+            });
+        }else{
+            this.setState({
+                isFilterName: isFilterName
+            });
+        }
     }
 
     AddUpdateEventFormCloseButton = (e:React.MouseEvent<HTMLElement>) => {
@@ -336,7 +395,9 @@ class TCalendarsHcbConfluence extends React.Component{
               successEvent,
 
               isModalOpen,
-              isFilterName
+              isFilterName,
+
+              systemNames
 
             } = this.state;
 
@@ -360,6 +421,7 @@ class TCalendarsHcbConfluence extends React.Component{
                                                  eventName={formEventName}
                                                  filterName={formFilterName}
                                                  systemName={formSystemName}
+                                                 systemNames={systemNames}
                                                  handleEventNameChange={this.handleEventNameChange}
                                                  handleFilterNameChange={this.handleFilterNameChange}
                                                  handleSystemNameChange={this.handleSystemNameChange}

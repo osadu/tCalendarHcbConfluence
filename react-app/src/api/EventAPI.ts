@@ -35,6 +35,14 @@ export const EventAPI = {
 
     getJiraIssuesByFilterName: (filterName:string | undefined) => {
         return axios.get(JIRA_CUSTOM_URL+"getJiraIssuesByFilterNameAnonym?filterName="+filterName).then( response => response.data.issues );
+    },
+
+    getJiraIssuesBySystemName: (systemName:string | undefined) => {
+        return axios.get(JIRA_CUSTOM_URL+"getJiraIssuesBySystemName?systemName="+systemName).then( response => response.data.issues );
+    },
+
+    getSystemNamesFromJira: () => {
+        return axios.get(JIRA_CUSTOM_URL+"getSystemNames").then( response => response.data );
     }
 
 }

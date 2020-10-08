@@ -1,4 +1,5 @@
 import React from "react";
+import { SystemNameType } from "../commons/Commons";
 import ErrorsComponent from "../commons/errors/ErrorsComponent";
 import SuccessComponent from "../commons/success/SuccessComponent";
 
@@ -10,6 +11,7 @@ type AddUpdateEventPropsType = {
     errors: Array<string>
     success: Array<string>
     isFilterName: boolean
+    systemNames: Array<SystemNameType>
     handleRadioButtonChange: (e:any) => void
     handleEventNameChange: (e: React.FormEvent<HTMLInputElement>) => void
     handleFilterNameChange: (e: React.FormEvent<HTMLInputElement>) => void
@@ -62,10 +64,10 @@ const AddUpdateEventFormComponent = (props: AddUpdateEventPropsType) => {
                                 <label htmlFor="filterName">Имя системы
                                 <span className="aui-icon icon-required">(required)</span></label>
                                 <select className="systemNameSelect" value={props.systemName} onChange={props.handleSystemNameChange}>
-                                    <option value="grapefruit">Грейпфрут</option>
-                                    <option value="lime">Лайм</option>
-                                    <option value="coconut">Кокос</option>
-                                    <option value="mango">Манго</option>
+                                    {props.systemNames.map(systemName => {
+                                        return (<option value={systemName.label}>{systemName.label}</option>);
+                                    })}
+                                    <option value="10000">10000</option>
                                 </select>
                         </div>
                     ) }
